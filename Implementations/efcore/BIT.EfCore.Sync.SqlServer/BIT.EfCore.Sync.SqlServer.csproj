@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(EfTargetFramework)</TargetFramework>
+		<Configurations>Debug;Release;ReleaseProduction</Configurations>
+		<PackageTags>Entity Framework Core entity-framework-core EF Data O/RM EntityFramework EntityFrameworkCore EFCore SQL Server Data-Synchronization</PackageTags>
+		<Description>Common base classes and interfaces to implement database synchronization</Description>
+		<DebugType>Full</DebugType>
+		<DebugSymbols>True</DebugSymbols>
+		<!--<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>-->
+	</PropertyGroup>
+	<!--Nuget Generation Section Start-->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<AssemblyName>BIT.EfCore.Sync.SqlServer.v$(NugetVersion)</AssemblyName>
+		<Version>$(NugetVersion)</Version>
+		<PackageId>BIT.EfCore.Sync.SqlServer</PackageId>
+	</PropertyGroup>
+	<!--Nuget Generation Section End-->
+	<!--Nuget Reference Section Start-->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BIT.EfCore.Sync\BIT.EfCore.Sync.csproj" />
+	</ItemGroup>
+	<!--NugetProject ReferencesSection End-->
+	<Target Name="CopyPackage" AfterTargets="Pack">
+		<Copy SourceFiles="bin\$(ConfigurationName)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(USERPROFILE)\Documents\MyNugets\" />
+	</Target>
+</Project>

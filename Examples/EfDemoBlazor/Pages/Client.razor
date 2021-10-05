@@ -1,0 +1,26 @@
+﻿@using EfDemoOrm
+@using BIT.Data.Sync.Client
+
+
+
+<h3>Client</h3>
+<label>Local Deltas:@DeltaCount</label>
+<RadzenButton Text="Init Database" Click="InitDatabase"></RadzenButton>
+<RadzenButton Text="Refresh" Click="RefreshData"></RadzenButton>
+<RadzenTextBox @bind-Value="BlogName"></RadzenTextBox>
+<RadzenButton Text="Add" Click="AddBlog"></RadzenButton>
+<RadzenButton Text="Push" Click="Push"></RadzenButton>
+<RadzenButton Text="Pull" Click="Pull"></RadzenButton>
+
+
+<RadzenDataGrid  AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="10" AllowPaging="true" AllowSorting="true"
+                Data="@Blogs" TItem="Blog" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Blog" Property="Name" Title="Name" />
+    </Columns>
+
+</RadzenDataGrid>
+
+@code {
+
+}

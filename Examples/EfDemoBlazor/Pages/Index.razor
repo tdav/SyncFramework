@@ -1,0 +1,63 @@
+﻿@using EfDemoOrm
+@using BIT.Data.Sync.Client
+@page "/"
+
+
+@*<RadzenButton Text="Add client" Click="AddClient"></RadzenButton>
+<RadzenTextBox @bind-Value="Identity"></RadzenTextBox>*@
+<div class="row">
+    <RadzenTabs @ref="TabControl">
+        <Tabs>
+            @*@foreach (var item in Clients) {
+                <RadzenTabsItem Text="@item.Key" ChildContent=item.Value>
+
+
+                </RadzenTabsItem>
+               <RadzenTabsItem Text="@item.Key">
+                    <Client Identity="@item.Key"/>
+                </RadzenTabsItem>
+               
+                <RadzenTabsItem Text="@item.Key">
+                     @item.Value
+                </RadzenTabsItem>
+            }*@
+            <RadzenTabsItem Text="A">
+                    <Client Identity="A"/>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="B">
+                    <Client Identity="B"/>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="C">
+                    <Client Identity="C"/>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+</div>
+@code {
+    void OnChange(int index)
+    {
+        //console.Log($"Tab with index {index} was selected.");
+    }
+    async void AddClient(MouseEventArgs args)
+    {
+      
+        //this.Clients.Add(Identity,null);
+        //this.Clients.Add(Identity,@<Client Identity="@Identity" />);
+
+    }
+    public Dictionary<string,RenderFragment> Clients = new Dictionary<string,RenderFragment>();
+    
+    public Radzen.Blazor.RadzenTabs TabControl { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+      
+    }
+   
+    protected async override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        
+    }
+   
+   
+}

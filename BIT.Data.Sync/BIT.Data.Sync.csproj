@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(NetStandardVersion)</TargetFramework>
+		<Configurations>Debug;Release;ReleaseProduction</Configurations>
+		<PackageTags>DevExpress XPO XAF Xamarin AspNetCore</PackageTags>
+		<Description>Common base classes and interfaces to implement database synchronization</Description>
+		<DebugType>Full</DebugType>
+		<DebugSymbols>True</DebugSymbols>
+		<!--<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>-->
+	</PropertyGroup>
+	<!--Nuget Generation Section Start-->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<AssemblyName>BIT.Data.Sync.Demo.v$(NugetVersion)</AssemblyName>
+		<Version>$(NugetVersion)</Version>
+		<PackageId>BIT.Data.Sync.Demo</PackageId>
+	</PropertyGroup>                                         
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseProduction|AnyCPU'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<AssemblyName>BIT.Data.Sync.v$(NugetVersion)</AssemblyName>
+		<Version>$(NugetVersion)</Version>
+		<PackageId>BIT.Data.Sync</PackageId>
+	</PropertyGroup>
+	<!--Nuget Generation Section End-->
+	<!--Nuget Reference Section Start-->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+	</ItemGroup>
+	<!--NugetProject ReferencesSection End-->
+	<Target Name="CopyPackage" AfterTargets="Pack">
+		<Copy SourceFiles="bin\$(ConfigurationName)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(USERPROFILE)\Documents\MyNugets\" />
+	</Target>
+</Project>
