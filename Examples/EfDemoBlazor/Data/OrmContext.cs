@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BIT.EfCore.Sync;
 
-namespace EfDemoOrm
+namespace EfDemoBlazor.Data
 {
     public class OrmContext : SyncFrameworkDbContext
     {
@@ -29,6 +29,6 @@ namespace EfDemoOrm
 
         }
 
-        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Person> Contacts { get; set; }
     }
 }

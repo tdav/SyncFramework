@@ -1,5 +1,4 @@
-﻿using EfDemoOrm;
-using BIT.Data.Sync.Client;
+﻿using BIT.Data.Sync.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen.Blazor;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using BIT.EfCore.Sync;
+using EfDemoBlazor.Data;
 using SyncFrameworkTests.EF.SqlServer;
 using SyncFrameworkTests.EF.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +17,8 @@ namespace EfDemoBlazor.Pages
 {
     public partial class Client:ComponentBase
     {
-        
-        public EfDemoOrm.OrmContext OrmContext { get; set; }
+       
+        public OrmContext OrmContext { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -60,17 +60,17 @@ namespace EfDemoBlazor.Pages
                 this.RefreshData();
             }
         }
-        public List<Blog> Blogs = new List<Blog>();
-        private static Blog GetBlog(string Name, string Title1, string Title2)
+        public List<Person> Contacts = new List<Person>();
+        private static Person GetBlog(string Name, string Title1, string Title2)
         {
-            return new Blog { Name = Name, Posts = { new Post { Title = Title1 }, new Post { Title = Title2 } } };
+            return new Person { Name = Name, Posts = { new Post { Title = Title1 }, new Post { Title = Title2 } } };
         }
         async void AddBlog(MouseEventArgs args)
         {
             
             await OrmContext.Database.EnsureCreatedAsync();
 
-            Blog entity = GetBlog(this.BlogName, $"{this.BlogName} Post 1", $"{this.BlogName} Post 2");
+            Person entity = GetBlog(this.BlogName, $"{this.BlogName} Post 1", $"{this.BlogName} Post 2");
 
             OrmContext.Add(
             entity);
@@ -83,9 +83,9 @@ namespace EfDemoBlazor.Pages
         async void RefreshData()
         {
             this.DeltaCount = await OrmContext.DeltaStore.GetDeltaCountAsync(await OrmContext.DeltaStore.GetLastPushedDeltaAsync(default), new System.Threading.CancellationToken());
-            Blogs = new List<Blog>();
-            var data = this.OrmContext.Blogs.ToList();
-            this.Blogs.AddRange(data);
+            Contacts = new List<Person>();
+            var data = this.OrmContext.Contacts.ToList();
+            this.Contacts.AddRange(data);
             this.StateHasChanged();
         }
         async void Pull(MouseEventArgs args)
@@ -97,7 +97,7 @@ namespace EfDemoBlazor.Pages
         async void Push(MouseEventArgs args)
         {
             await OrmContext.PushAsync();
-
+            RefreshData();
         }
         async void InitDatabase(MouseEventArgs args)
         {

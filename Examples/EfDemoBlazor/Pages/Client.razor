@@ -1,25 +1,31 @@
-﻿@using EfDemoOrm
+﻿@using EfDemoBlazor.Data
 @using BIT.Data.Sync.Client
 
 
+<p>
+<h3>Identity:@Identity</h3>
+</p>
 
-<h3>Client</h3>
-<label>Local Deltas:@DeltaCount</label>
-<RadzenButton Text="Init Database" Click="InitDatabase"></RadzenButton>
-<RadzenButton Text="Refresh" Click="RefreshData"></RadzenButton>
-<RadzenTextBox @bind-Value="BlogName"></RadzenTextBox>
-<RadzenButton Text="Add" Click="AddBlog"></RadzenButton>
-<RadzenButton Text="Push" Click="Push"></RadzenButton>
-<RadzenButton Text="Pull" Click="Pull"></RadzenButton>
-
-
-<RadzenDataGrid  AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="10" AllowPaging="true" AllowSorting="true"
-                Data="@Blogs" TItem="Blog" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+<div class="row">
+<label>Local Deltas</label>
+    <RadzenNumeric Disabled=true Value=@DeltaCount></RadzenNumeric>
+    <RadzenButton Text="Init Database" Click="InitDatabase"></RadzenButton>
+    <RadzenButton Text="Refresh" Click="RefreshData"></RadzenButton>
+    <RadzenTextBox @bind-Value="BlogName"></RadzenTextBox>
+    <RadzenButton Text="Add" Click="AddBlog"></RadzenButton>
+    <RadzenButton Text="Push" Click="Push"></RadzenButton>
+    <RadzenButton Text="Pull" Click="Pull"></RadzenButton>
+</div>
+<div class="row">
+    <RadzenDataGrid  AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="10" AllowPaging="true" AllowSorting="true"
+                Data="@Contacts" TItem="Person" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
-        <RadzenDataGridColumn TItem="Blog" Property="Name" Title="Name" />
+        <RadzenDataGridColumn TItem="Person" Property="Name" Title="Name" />
     </Columns>
 
-</RadzenDataGrid>
+    </RadzenDataGrid>
+</div>
+
 
 @code {
 

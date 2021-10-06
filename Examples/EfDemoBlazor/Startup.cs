@@ -6,7 +6,6 @@ using BIT.EfCore.Sync;
 using BIT.EfCore.Sync.DeltaProcessors;
 using BIT.EfCore.Sync.DeltaStores;
 
-using EfDemoOrm;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -63,7 +62,7 @@ namespace EfDemoBlazor
             services.AddDataStoreTypes(DeltaStores.ToArray(), DeltaProcessors.ToArray());
 
 
-           
+            services.AddSingleton(typeof(ConsoleEventService));
             services.AddScoped<ISyncServer, SyncServerBase>();
 
            

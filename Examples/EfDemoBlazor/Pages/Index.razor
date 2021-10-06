@@ -1,10 +1,24 @@
-﻿@using EfDemoOrm
+﻿@using EfDemoBlazor.Data
 @using BIT.Data.Sync.Client
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging
+
 @page "/"
+@inject IServiceProvider provider;
+@inject ConsoleEventService consoleEventService;
 
+<div class="row">
+  
 
-@*<RadzenButton Text="Add client" Click="AddClient"></RadzenButton>
-<RadzenTextBox @bind-Value="Identity"></RadzenTextBox>*@
+   <RadzenDataGrid  AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="10" AllowPaging="true" AllowSorting="true"
+                Data="@items" TItem="string" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="string" Property="."  Title="Name" />
+    </Columns>
+
+</RadzenDataGrid>
+</div>
+
 <div class="row">
     <RadzenTabs @ref="TabControl">
         <Tabs>
@@ -33,31 +47,38 @@
         </Tabs>
     </RadzenTabs>
 </div>
-@code {
-    void OnChange(int index)
+ 
+@code 
+{
+    
+    public string value { get; set; }
+    List<string> items = new List<string>(){ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+    public void UpdateConsole(string message)
     {
-        //console.Log($"Tab with index {index} was selected.");
-    }
-    async void AddClient(MouseEventArgs args)
-    {
-      
-        //this.Clients.Add(Identity,null);
-        //this.Clients.Add(Identity,@<Client Identity="@Identity" />);
 
     }
-    public Dictionary<string,RenderFragment> Clients = new Dictionary<string,RenderFragment>();
+    
     
     public Radzen.Blazor.RadzenTabs TabControl { get; set; }
     protected override async Task OnInitializedAsync()
     {
-      
+       
+       
     }
-   
+
     protected async override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
         
+        base.OnAfterRender(firstRender);
+        if(firstRender)
+        {
+            
+            this.value = "aaa";
+            this.StateHasChanged();
+           
+        }
+
+    }
     }
    
-   
-}
+

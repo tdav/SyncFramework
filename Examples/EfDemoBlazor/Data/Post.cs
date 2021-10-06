@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EfDemoOrm
+namespace EfDemoBlazor.Data
 {
     public class Post
     {
@@ -12,6 +12,6 @@ namespace EfDemoOrm
 
         public string Title { get; set; }
 
-        public Blog Blog { get; set; }
+        public Person Person { get; set; }
     }
 }
