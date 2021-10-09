@@ -1,6 +1,5 @@
 ﻿using BIT.Data.Sync;
 using BIT.Data.Sync.Server;
-using EfDemoBlazor.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
