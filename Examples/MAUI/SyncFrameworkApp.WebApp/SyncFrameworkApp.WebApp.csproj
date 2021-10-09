@@ -14,4 +14,8 @@
     <ProjectReference Include="..\SyncFrameworkApp.Controls\SyncFrameworkApp.Controls.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Databases\" />
+  </ItemGroup>
+
 </Project>
