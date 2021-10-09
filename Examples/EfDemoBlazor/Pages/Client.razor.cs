@@ -63,7 +63,7 @@ namespace EfDemoBlazor.Pages
         public List<Person> Contacts = new List<Person>();
         private static Person GetBlog(string Name, string Title1, string Title2)
         {
-            return new Person { Name = Name, Posts = { new Post { Title = Title1 }, new Post { Title = Title2 } } };
+            return new Person { Name = Name, Posts = { new Phone { Number = Title1 }, new Phone { Number = Title2 } } };
         }
         async void AddBlog(MouseEventArgs args)
         {

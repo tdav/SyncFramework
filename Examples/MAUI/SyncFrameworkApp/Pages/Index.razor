@@ -1,0 +1,158 @@
+﻿@page "/"
+@using SyncFrameworkApp.Controls
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SfaDataTable Users="User" />
+
+
+@code{
+    public List<User> User { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+       User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
+            }
+            });
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
+            }
+            });
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
+            }
+            });
+
+
+        User.Add(new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Steven",
+                LastName = "Checo",
+                Email = "steven.checo.19@gmail.com",
+                BirthDay = DateTime.Now,
+                RegisterDate = DateTime.UtcNow,
+                Contacts = new List<UserContact> {
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
+            }
+            });
+
+    }
+}

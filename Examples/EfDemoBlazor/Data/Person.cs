@@ -16,6 +16,6 @@ namespace EfDemoBlazor.Data
         public string Name { get; set; }
 
 
-        public ICollection<Post> Posts { get; } = new List<Post>();
+        public ICollection<Phone> Posts { get; } = new List<Phone>();
     }
 }

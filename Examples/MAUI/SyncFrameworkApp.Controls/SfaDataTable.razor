@@ -1,0 +1,260 @@
+﻿@using Radzen
+@using Radzen.Blazor
+@using System.Linq
+@using System.Linq.Expressions
+@using System.Linq.Dynamic
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow" />
+    <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single" EditMode="DataGridEditMode.Single"
+                Data="@Users" TItem="User" RowCreate="@OnCreateRow" RowUpdate="@OnUpdateRow">
+        <Template Context="user">
+            <RadzenTabs>
+                <Tabs>
+                    <RadzenTabsItem Text="Contacts">
+                        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertDetailRow" />
+                        <RadzenDataGrid @ref="gridDetail" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@user.Contacts" TItem="UserContact">
+                            <Columns>
+                              @*  <RadzenDataGridColumn TItem="UserContact" Property="Address" Title="Address" >
+                                    <EditTemplate  Context="usercontact">
+                                        <RadzenTextBox @bind-Value="usercontact.Address" Style="width:100%; display: block" Name="Address" />
+                                        @usercontact.Address
+                                    </EditTemplate >
+                                </RadzenDataGridColumn>*@
+                                <RadzenDataGridColumn TItem="UserContact" Property="Phones" Title="Phones" >
+                                    <EditTemplate  Context="usercontact">
+                                        <RadzenTextBox @bind-Value="usercontact.Phones" Style="width:100%; display: block" Name="Phones" />
+                                        @usercontact.Phones
+                                    </EditTemplate> 
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="UserContact" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                                    <Template Context="usercontact">
+                                        <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditDetailRow(usercontact))" @onclick:stopPropagation="true">
+                                        </RadzenButton>
+                                    </Template>
+                                    <EditTemplate Context="usercontact">
+                                        <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveDetailRow(usercontact, user.Id))">
+                                        </RadzenButton>
+                                        <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelDetailEdit(usercontact))">
+                                        </RadzenButton>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="UserContact" Context="usercontact" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                                    <Template Context="usercontact">
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteDetailRow(usercontact,user.Id))" @onclick:stopPropagation="true">
+                                        </RadzenButton>
+                                    </Template>
+                                    <EditTemplate Context="usercontact">
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteDetailRow(usercontact,user.Id))">
+                                        </RadzenButton>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </Template>
+        <Columns>
+            <RadzenDataGridColumn  TItem="User" Property="Name" Title="Name" >
+                 <EditTemplate  Context="user">
+                    <RadzenTextBox @bind-Value="user.Name" Style="width:100%; display: block" Name="Name" />
+                    @user.Name
+                </EditTemplate >
+            </RadzenDataGridColumn>
+          @*  <RadzenDataGridColumn  TItem="User" Property="LastName" Title="Last Name" >
+                <EditTemplate  Context="user">
+                    <RadzenTextBox @bind-Value="user.LastName" Style="width:100%; display: block" Name="LastName" />
+                    @user.LastName
+                </EditTemplate >
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn  TItem="User" Property="Email" Title="Email" >
+                <EditTemplate  Context="user">
+                    <RadzenTextBox @bind-Value="user.Email" Style="width:100%; display: block" Name="Email" />
+                    @user.Email
+                </EditTemplate >
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="User" Property="BirthDay" Title="BirthDay" >
+                <Template Context="user">
+                    @String.Format("{0:d}", user.BirthDay)
+                </Template>
+                <EditTemplate Context="user">
+                    <RadzenDatePicker @bind-Value="user.BirthDay" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="User" Property="RegisterDate" Title="Register Date">
+                <Template Context="user">
+                    @String.Format("{0:d}", user.RegisterDate)
+                </Template>
+                <EditTemplate Context="user">
+                    <RadzenDatePicker @bind-Value="user.RegisterDate" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>*@
+
+
+            <RadzenDataGridColumn TItem="User" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="user">
+                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(user))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="user">
+                    <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(user))">
+                    </RadzenButton>
+                    <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(user))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+
+            <RadzenDataGridColumn TItem="User" Context="user" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                <Template Context="user">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(user))"  @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="user">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(user))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+
+    [Parameter]
+    public List<User> Users { get; set; }
+
+    public RadzenDataGrid<User> grid;
+
+    public RadzenDataGrid<UserContact> gridDetail;
+
+    void RowRender(RowRenderEventArgs<User> args)
+    {
+        
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    void InsertRow()
+    {
+        grid.InsertRow(new User());
+    }
+
+    
+
+    void OnCreateRow(User user)
+    {
+        user.Id = Guid.NewGuid();
+        
+        Users.Add(user);
+    }
+
+
+    void SaveRow(User user)
+    {
+        grid.UpdateRow(user);
+    }
+
+
+     void EditRow(User user)
+    {
+        grid.EditRow(user);
+    }
+
+    void OnUpdateRow(User user)
+    {
+
+        foreach (var userdata in Users.ToList())
+        {
+            if (userdata.Id == user.Id)
+            {
+                userdata.Name = user.Name;
+                userdata.LastName = user.LastName;
+                userdata.Email = user.Email;
+                userdata.RegisterDate = user.RegisterDate;
+                userdata.BirthDay = user.BirthDay;
+            }
+        }
+
+    }
+
+
+     void CancelEdit(User user)
+    {
+        grid.CancelEditRow(user);
+
+    }
+
+     void DeleteRow(User user)
+    {
+        if (Users.Contains(user))
+        {
+            Users.Remove(user);
+            grid.Reload();
+        }
+        else
+        {
+            grid.CancelEditRow(user);
+        }
+    }
+
+
+
+    void InsertDetailRow()
+    {
+        gridDetail.InsertRow(new UserContact());
+    }
+
+    void EditDetailRow(UserContact userContact)
+    {
+
+        gridDetail.EditRow(userContact);  
+
+    }
+
+    void SaveDetailRow(UserContact userContact, Guid Id)
+    {
+       var user = Users.Where(a => a.Id == Id).FirstOrDefault();
+
+       user.Contacts.Add(userContact);
+
+        foreach (var userData in Users.ToList())
+        {
+           if (userData.Id == user.Id)
+            {
+                userData.Contacts = user.Contacts;
+            } 
+
+        }
+
+       gridDetail.UpdateRow(userContact);
+    
+    }
+
+
+    void DeleteDetailRow(UserContact userContact,Guid Id)
+    {
+        var user = Users.Where(a => a.Id == Id).FirstOrDefault();
+
+        foreach (var userData in Users.ToList())
+        {
+           if (userData.Id == user.Id)
+            {
+                userData.Contacts.Remove(userContact);
+            } 
+
+        }
+        gridDetail.Reload();
+    }
+
+    void CancelDetailEdit(UserContact userContact)
+    {
+         gridDetail.CancelEditRow(userContact); 
+    
+    }
+
+}

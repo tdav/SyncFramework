@@ -26,7 +26,7 @@ namespace BIT.EfCore.Sync.Test
             cf = this.GetTestClientFactory();
         }
         [Test]
-        public async Task Test1()
+        public async Task SqlServerToSqliteTest()
         {
             try
             {
