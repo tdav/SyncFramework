@@ -91,12 +91,15 @@ namespace SyncFrameworkApp.Controls
 
         }
 
-        void DeleteRow(User user)
+        async void DeleteRow(User user)
         {
             if (Users.Contains(user))
             {
+                this.OrmContext.Remove(user);
+                await this.OrmContext.SaveChangesAsync();
                 Users.Remove(user);
-                grid.Reload();
+                await grid.Reload();
+                this.RefreshData();
             }
             else
             {
