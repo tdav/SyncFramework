@@ -14,7 +14,7 @@
     <RadzenButton Text="Pull" Click="Pull"></RadzenButton>
 
     <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single" EditMode="DataGridEditMode.Single"
-                Data="@Users" TItem="User" RowCreate="@OnCreateRow" RowUpdate="@OnUpdateRow">
+                Data="@Users" TItem="User">
         <Template Context="user">
             <RadzenTabs>
                 <Tabs>
@@ -69,7 +69,9 @@
                     @user.Name
                 </EditTemplate >
             </RadzenDataGridColumn>
-          @*  <RadzenDataGridColumn  TItem="User" Property="LastName" Title="Last Name" >
+           
+          @*  
+            <RadzenDataGridColumn  TItem="User" Property="LastName" Title="Last Name" >
                 <EditTemplate  Context="user">
                     <RadzenTextBox @bind-Value="user.LastName" Style="width:100%; display: block" Name="LastName" />
                     @user.LastName

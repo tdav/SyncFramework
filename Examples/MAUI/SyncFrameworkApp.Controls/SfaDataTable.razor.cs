@@ -20,6 +20,7 @@ namespace SyncFrameworkApp.Controls
         
         async void RefreshData()
         {
+            this.DeltaCount = await OrmContext.DeltaStore.GetDeltaCountAsync(await OrmContext.DeltaStore.GetLastPushedDeltaAsync(default), new System.Threading.CancellationToken());
            
             this.StateHasChanged();
         }
@@ -55,8 +56,11 @@ namespace SyncFrameworkApp.Controls
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
+            if(firstRender)
+                RefreshData();
         }
 
+        #region CrudHeader
         void InsertRow()
         {
             var Instance = new User();
@@ -65,20 +69,11 @@ namespace SyncFrameworkApp.Controls
             RefreshData();
         }
 
-
-
-        void OnCreateRow(User user)
-        {
-            user.Id = Guid.NewGuid();
-
-            Users.Add(user);
-        }
-
-
         async Task SaveRow(User user)
         {
             await grid.UpdateRow(user);
             await this.OrmContext.SaveChangesAsync();
+            RefreshData();
         }
 
 
@@ -87,22 +82,7 @@ namespace SyncFrameworkApp.Controls
             grid.EditRow(user);
         }
 
-        void OnUpdateRow(User user)
-        {
-
-            foreach (var userdata in Users.ToList())
-            {
-                if (userdata.Id == user.Id)
-                {
-                    userdata.Name = user.Name;
-                    userdata.LastName = user.LastName;
-                    userdata.Email = user.Email;
-                    userdata.RegisterDate = user.RegisterDate;
-                    userdata.BirthDay = user.BirthDay;
-                }
-            }
-
-        }
+        
 
 
         void CancelEdit(User user)
@@ -124,6 +104,7 @@ namespace SyncFrameworkApp.Controls
             }
         }
 
+        #endregion
 
 
         void InsertDetailRow()

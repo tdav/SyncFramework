@@ -76,146 +76,22 @@ namespace SyncFrameworkApp.WebApp.Pages
         private async Task AddInitialData()
         {
 
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
-            }
-            });
+            //User.Add(new User
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = "Steven",
+            //    LastName = "Checo",
+            //    Email = "steven.checo.19@gmail.com",
+            //    BirthDay = DateTime.Now,
+            //    RegisterDate = DateTime.UtcNow,
+            //    Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
+            //    new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
+            //    new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
+            //    new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
+            //}
+            //});
 
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
-            }
-            });
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() }
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068", Id= Guid.NewGuid() },
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
-            }
-            });
-
-
-            User.Add(new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Steven",
-                LastName = "Checo",
-                Email = "steven.checo.19@gmail.com",
-                BirthDay = DateTime.Now,
-                RegisterDate = DateTime.UtcNow,
-                Contacts = new List<SyncFrameworkApp.Controls.Data.UserContact> {
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()},
-                new UserContact {Address = "1810 wallace ave", Phones = "8096953068" , Id= Guid.NewGuid()}
-            }
-            });
+           
             await this.OrmContext.AddRangeAsync(User);
             await this.OrmContext.SaveChangesAsync();
         }
