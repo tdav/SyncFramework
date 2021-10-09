@@ -6,8 +6,13 @@
 @using SyncFrameworkApp.Controls.Data
 
 
-
+    <RadzenNumeric Disabled=true Value=@DeltaCount></RadzenNumeric>
+    <RadzenButton Text="Init Database" Click="InitDatabase"></RadzenButton>
+    <RadzenButton Text="Refresh" Click="RefreshData"></RadzenButton>
     <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow" />
+    <RadzenButton Text="Push" Click="Push"></RadzenButton>
+    <RadzenButton Text="Pull" Click="Pull"></RadzenButton>
+
     <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single" EditMode="DataGridEditMode.Single"
                 Data="@Users" TItem="User" RowCreate="@OnCreateRow" RowUpdate="@OnUpdateRow">
         <Template Context="user">
@@ -123,139 +128,6 @@
 
 @code {
 
-    [Parameter]
-    public List<User> Users { get; set; }
-
-    public RadzenDataGrid<User> grid;
-
-    public RadzenDataGrid<UserContact> gridDetail;
-
-    void RowRender(RowRenderEventArgs<User> args)
-    {
-        
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-    }
-
-    void InsertRow()
-    {
-        grid.InsertRow(new User());
-    }
-
     
-
-    void OnCreateRow(User user)
-    {
-        user.Id = Guid.NewGuid();
-        
-        Users.Add(user);
-    }
-
-
-    void SaveRow(User user)
-    {
-        grid.UpdateRow(user);
-    }
-
-
-     void EditRow(User user)
-    {
-        grid.EditRow(user);
-    }
-
-    void OnUpdateRow(User user)
-    {
-
-        foreach (var userdata in Users.ToList())
-        {
-            if (userdata.Id == user.Id)
-            {
-                userdata.Name = user.Name;
-                userdata.LastName = user.LastName;
-                userdata.Email = user.Email;
-                userdata.RegisterDate = user.RegisterDate;
-                userdata.BirthDay = user.BirthDay;
-            }
-        }
-
-    }
-
-
-     void CancelEdit(User user)
-    {
-        grid.CancelEditRow(user);
-
-    }
-
-     void DeleteRow(User user)
-    {
-        if (Users.Contains(user))
-        {
-            Users.Remove(user);
-            grid.Reload();
-        }
-        else
-        {
-            grid.CancelEditRow(user);
-        }
-    }
-
-
-
-    void InsertDetailRow()
-    {
-        gridDetail.InsertRow(new UserContact());
-    }
-
-    void EditDetailRow(UserContact userContact)
-    {
-
-        gridDetail.EditRow(userContact);  
-
-    }
-
-    void SaveDetailRow(UserContact userContact, Guid Id)
-    {
-       var user = Users.Where(a => a.Id == Id).FirstOrDefault();
-
-       user.Contacts.Add(userContact);
-
-        foreach (var userData in Users.ToList())
-        {
-           if (userData.Id == user.Id)
-            {
-                userData.Contacts = user.Contacts;
-            } 
-
-        }
-
-       gridDetail.UpdateRow(userContact);
-    
-    }
-
-
-    void DeleteDetailRow(UserContact userContact,Guid Id)
-    {
-        var user = Users.Where(a => a.Id == Id).FirstOrDefault();
-
-        foreach (var userData in Users.ToList())
-        {
-           if (userData.Id == user.Id)
-            {
-                userData.Contacts.Remove(userContact);
-            } 
-
-        }
-        gridDetail.Reload();
-    }
-
-    void CancelDetailEdit(UserContact userContact)
-    {
-         gridDetail.CancelEditRow(userContact); 
-    
-    }
 
 }

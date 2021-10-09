@@ -10,7 +10,7 @@ namespace SyncFrameworkApp.Controls.Data
     {
         public Guid Id { get; set; }
         public Guid? UserId { get; set; }
-        public string Phones { get; set; }
-        public string Address { get; set; }
+        public string? Phones { get; set; }
+        public string? Address { get; set; }
     }
 }

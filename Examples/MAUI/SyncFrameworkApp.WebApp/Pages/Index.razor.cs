@@ -10,6 +10,7 @@ namespace SyncFrameworkApp.WebApp.Pages
 {
     public partial class Index
     {
+     
         public OrmContext OrmContext { get; set; }
 
         [Inject]
@@ -22,17 +23,6 @@ namespace SyncFrameworkApp.WebApp.Pages
         public Radzen.Blazor.RadzenTabs TabControl { get; set; }
         protected override async Task OnInitializedAsync()
         {
-           
-        }
-        protected async override void OnAfterRender(bool firstRender)
-        {
-
-            base.OnAfterRender(firstRender);
-
-
-            if (!firstRender)
-                return;
-
             Identity = "Master";
             string DeltasCnx = $"Data Source=Databases\\{Identity}Deltas.db";
             string DataCnx = $"Data Source=Databases\\{Identity}Data.db";
@@ -64,6 +54,17 @@ namespace SyncFrameworkApp.WebApp.Pages
             {
                 this.User.AddRange(this.OrmContext.Users);
             }
+        }
+        protected async override void OnAfterRender(bool firstRender)
+        {
+
+            base.OnAfterRender(firstRender);
+
+
+            if (!firstRender)
+                return;
+
+           
 
 
          

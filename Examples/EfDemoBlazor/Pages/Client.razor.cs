@@ -51,7 +51,7 @@ namespace EfDemoBlazor.Pages
 
           
         }
-        public int DeltaCount { get; set; }
+        
         protected async override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
@@ -65,6 +65,7 @@ namespace EfDemoBlazor.Pages
         {
             return new Person { Name = Name, Posts = { new Phone { Number = Title1 }, new Phone { Number = Title2 } } };
         }
+        public int DeltaCount { get; set; }
         async void AddBlog(MouseEventArgs args)
         {
             
