@@ -8,6 +8,7 @@ using SyncFrameworkTests.EF.Sqlite;
 using SyncFrameworkTests.EF.SqlServer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,12 @@ namespace SyncFrameworkApp.Pages
         public Radzen.Blazor.RadzenTabs TabControl { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
+            {
+                Debug.WriteLine($"****************************************************************************************************");
+
+                return true;
+            };
             var dir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             Identity = "Master";
             string DeltasCnx = $"Data Source={dir}\\{Identity}Deltas.db";
@@ -52,7 +59,7 @@ namespace SyncFrameworkApp.Pages
             DeltaGenerators.Add(new SqliteDeltaGenerator());
 
 
-            ServiceCollection.AddEfSynchronization((options) => { options.UseSqlite(DeltasCnx); }, "DemoApp", NavigationManager.BaseUri, DeltaGenerators);
+            ServiceCollection.AddEfSynchronization((options) => { options.UseSqlite(DeltasCnx); }, "DemoApp", "https://192.168.0.76:45455/", DeltaGenerators);
             ServiceCollection.AddEntityFrameworkSqlite();
             ServiceCollection.AddSingleton<ISyncIdentityService>(new SyncIdentityService(Identity));
 
