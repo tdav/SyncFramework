@@ -8,18 +8,4 @@ namespace BIT.Data.Sync
     {
         string Identity { get; set; }
     }
-    public class SyncIdentityService: ISyncIdentityService
-    {
-        
-        public SyncIdentityService()
-        {
-            
-        }
-        public SyncIdentityService(string identity)
-        {
-            Identity = identity;
-        }
-
-        public string Identity { get; set; }
-    }
 }

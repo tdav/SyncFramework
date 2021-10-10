@@ -18,8 +18,11 @@ namespace BIT.Data.Sync.Extensions
             return SerializationHelper.SerializeCore(Instance);
         }
 
-
-        public static IDelta CreateDelta(this IDeltaProcessor deltaStore, string Identity, object Operations)
+        public static IDelta CreateDelta(this IDeltaStore deltaStore, string Identity, object Operations)
+        {
+            return CreateDeltaCore(Identity, Operations);
+        }
+        public static IDelta CreateDelta(this IDeltaProcessor deltaProcessor, string Identity, object Operations)
         {
             return CreateDeltaCore(Identity, Operations);
         }
@@ -40,7 +43,14 @@ namespace BIT.Data.Sync.Extensions
         public static IDelta CreateDeltaCore(string Identity, object Operations)
         {
             DateTime now = DateTime.Now;
-            var delta = new Delta() { Date = now, Identity = Identity, Processed = false, Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)) };
+            var delta = new Delta()
+            {
+                Date = now,
+                Identity = Identity,
+                Processed = false,
+                Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)),
+                Index = Delta.GenerateComb()
+            };
             delta.Epoch = now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             return delta;
         }

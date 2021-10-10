@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncFrameworkApp.WebApp", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncFrameworkApp", "Examples\MAUI\SyncFrameworkApp\SyncFrameworkApp.csproj", "{AA90D902-BBA4-4C24-942E-A1E1C054416F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIT.Data.Sync.Tests", "Tests\BIT.Data.Sync.Tests\BIT.Data.Sync.Tests.csproj", "{F5301998-7372-47E0-81DE-4ADD421A2D50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,12 @@ Global
 		{AA90D902-BBA4-4C24-942E-A1E1C054416F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA90D902-BBA4-4C24-942E-A1E1C054416F}.ReleaseProduction|Any CPU.ActiveCfg = Release|Any CPU
 		{AA90D902-BBA4-4C24-942E-A1E1C054416F}.ReleaseProduction|Any CPU.Build.0 = Release|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.ReleaseProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{F5301998-7372-47E0-81DE-4ADD421A2D50}.ReleaseProduction|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +127,7 @@ Global
 		{DF4CB72E-862D-441F-9129-BEEB74D042CC} = {D24862A2-1717-4DA6-92A5-7F6FFC9562D9}
 		{E4EAA66D-D1EA-4BBC-AB49-3891C6729382} = {D24862A2-1717-4DA6-92A5-7F6FFC9562D9}
 		{AA90D902-BBA4-4C24-942E-A1E1C054416F} = {D24862A2-1717-4DA6-92A5-7F6FFC9562D9}
+		{F5301998-7372-47E0-81DE-4ADD421A2D50} = {F659BA38-A2DD-41E9-83E1-2F9658400833}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DE69D0C-01EA-425A-B43E-10A131088EFC}

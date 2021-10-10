@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace BIT.EfCore.Sync
 {
+
     public class EFDeltaStore : BIT.Data.Sync.DeltaStoreBase
     {
         DeltaDbContext DeltaDbContext;
@@ -130,4 +131,6 @@ namespace BIT.EfCore.Sync
 
         }
     }
+
+
 }

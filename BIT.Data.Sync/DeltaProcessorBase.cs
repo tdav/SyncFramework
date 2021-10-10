@@ -13,7 +13,7 @@ namespace BIT.Data.Sync
             _deltaStoreSettings = deltaStoreSettings;
         }
 
-        public abstract Task ProcessDeltasAsync(IEnumerable<IDelta> Detlas, CancellationToken cancellationToken);
+        public abstract Task ProcessDeltasAsync(IEnumerable<IDelta> Deltas, CancellationToken cancellationToken);
 
     }
 }
