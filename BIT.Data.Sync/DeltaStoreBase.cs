@@ -29,7 +29,6 @@ namespace BIT.Data.Sync
         public abstract Task SaveDeltasAsync(IEnumerable<IDelta> deltas, CancellationToken cancellationToken = default);
 
         public abstract Task<IEnumerable<IDelta>> GetDeltasFromOtherNodes(Guid startindex, string identity, CancellationToken cancellationToken = default);
-
         public abstract Task<Guid> GetLastProcessedDeltaAsync(CancellationToken cancellationToken = default);
         public abstract Task SetLastProcessedDeltaAsync(Guid Index, CancellationToken cancellationToken = default);
 
