@@ -29,9 +29,8 @@ namespace BIT.Data.Sync
             Identity = Delta.Identity;
             Index = Delta.Index;
             Operation = Delta.Operation;
-            Processed = Delta.Processed;
-            Epoch = Delta.Epoch;
-            Date = Delta.Date;
+          
+
         }
         public Delta(string identity, Guid index, byte[] operation, bool processed = false)
         {

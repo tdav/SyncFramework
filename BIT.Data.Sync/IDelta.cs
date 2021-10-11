@@ -8,14 +8,7 @@ namespace BIT.Data.Sync
     /// </summary>
     public interface IDelta
     {
-        /// <summary>
-        /// The date when the operation happened
-        /// </summary>
-        DateTime Date { get; set; }
-        /// <summary>
-        /// The date when the operation happened
-        /// </summary>
-        double Epoch { get; set; }
+       double Epoch { get; set; }
         /// <summary>
         /// Who created the delta
         /// </summary>
@@ -28,10 +21,7 @@ namespace BIT.Data.Sync
         /// The database transaction(s) that represents this delta
         /// </summary>
         byte[] Operation { get; set; }
-        /// <summary>
-        /// True if the delta has been already processed 
-        /// </summary>
-        bool Processed { get; set; }
+       
 
     }
 }

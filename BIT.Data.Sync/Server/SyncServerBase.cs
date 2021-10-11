@@ -25,7 +25,7 @@ namespace BIT.Data.Sync.Server
             if (deltaStore != null)
             {
         
-                return await deltaStore.GetDeltasAsync(startindex, identity, cancellationToken).ConfigureAwait(false); 
+                return await deltaStore.GetDeltasFromOtherNodes(startindex, identity, cancellationToken).ConfigureAwait(false); 
             }
 
             IEnumerable<IDelta> result = new List<IDelta>();
