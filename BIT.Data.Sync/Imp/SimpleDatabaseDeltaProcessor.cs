@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public class TextDeltaProcessor : DeltaProcessorBase
+    public class SimpleDatabaseDeltaProcessor : DeltaProcessorBase
     {
-        public TextDeltaProcessor(DeltaStoreSettings deltaStoreSettings) : this(deltaStoreSettings,new StringBuilder())
+        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings) : this(deltaStoreSettings,new StringBuilder())
         {
         }
         StringBuilder _CurrentText;
-        public TextDeltaProcessor(DeltaStoreSettings deltaStoreSettings,StringBuilder CurrentText) : base(deltaStoreSettings)
+        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings,StringBuilder CurrentText) : base(deltaStoreSettings)
         {
             _CurrentText=CurrentText;
         }

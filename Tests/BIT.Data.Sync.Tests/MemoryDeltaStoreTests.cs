@@ -53,7 +53,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task PurgeDeltasAsync_Test()
         {
-            MemoryDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
+            MemoryDeltaStore memoryDeltaStore = new MemoryDeltaStore(new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
 

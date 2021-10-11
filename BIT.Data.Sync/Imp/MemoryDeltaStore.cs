@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BIT.Data.Sync.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace BIT.Data.Sync.TextImp
 
         }
         //TODO fix the use of MemoryDb
-        public MemoryDeltaStore(BIT.Data.Sync.Options.DeltaStoreSettings deltaStoreSettings) : base(deltaStoreSettings)
+        public MemoryDeltaStore(DeltaStoreSettings deltaStoreSettings) : base(deltaStoreSettings)
         {
 
         }
@@ -87,7 +88,7 @@ namespace BIT.Data.Sync.TextImp
         {
             cancellationToken.ThrowIfCancellationRequested();
             Deltas.Clear();
-
+           
 
         }
     }

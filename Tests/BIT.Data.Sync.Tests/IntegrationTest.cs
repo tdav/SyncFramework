@@ -36,11 +36,11 @@ namespace BIT.Data.Sync.Tests
             var DeltasFromStore = await memoryDeltaStore.GetDeltasAsync(Guid.Empty, default);
 
             StringBuilder StringBuilderA = new StringBuilder();
-            IDeltaProcessor DeltaProcessorA = new TextDeltaProcessor(null, StringBuilderA);
+            IDeltaProcessor DeltaProcessorA = new SimpleDatabaseDeltaProcessor(null, StringBuilderA);
 
 
             StringBuilder StringBuilderB = new System.Text.StringBuilder();
-            IDeltaProcessor DeltaProcessorB = new TextDeltaProcessor(null, StringBuilderB);
+            IDeltaProcessor DeltaProcessorB = new SimpleDatabaseDeltaProcessor(null, StringBuilderB);
 
             await DeltaProcessorA.ProcessDeltasAsync(DeltasFromStore, default);
             await DeltaProcessorB.ProcessDeltasAsync(DeltasFromStore, default);

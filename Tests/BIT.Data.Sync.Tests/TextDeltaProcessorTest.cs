@@ -28,7 +28,7 @@ namespace BIT.Data.Sync.Tests
 
             StringBuilder currentText = new System.Text.StringBuilder();
            
-            IDeltaProcessor deltaProcessor = new TextDeltaProcessor(null, currentText);
+            IDeltaProcessor deltaProcessor = new SimpleDatabaseDeltaProcessor(null, currentText);
             var DeltaHello = deltaProcessor.CreateDelta("A", "Hello");
             var DeltaWorld = deltaProcessor.CreateDelta("A", "World");
             await deltaProcessor.ProcessDeltasAsync(new List<IDelta>{ DeltaHello, DeltaWorld },default);
