@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public interface IRecord
+    public enum OperationType
     {
-        Guid Key { get; set; }
+        Add, Delete, Update
     }
 }

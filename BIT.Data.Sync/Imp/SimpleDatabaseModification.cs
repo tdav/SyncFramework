@@ -5,12 +5,12 @@ namespace BIT.Data.Sync.TextImp
 {
     public class SimpleDatabaseModification
     {
-        public Operation Operation { get; set; }
-        public SimpleDatabaseModification(Operation operation, IRecord record)
+        public OperationType Operation { get; set; }
+        public SimpleDatabaseModification(OperationType operation, SimpleDatabaseRecord record)
         {
             Operation = operation;
             Record = record;
         }
-        public IRecord Record { get; set; }
+        public SimpleDatabaseRecord Record { get; set; }
     }
 }

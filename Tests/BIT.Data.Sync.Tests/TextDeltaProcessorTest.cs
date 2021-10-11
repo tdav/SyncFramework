@@ -26,16 +26,26 @@ namespace BIT.Data.Sync.Tests
         public async Task ProcessDeltasAsync_Test()
         {
 
-            StringBuilder currentText = new System.Text.StringBuilder();
+          
            
-            IDeltaProcessor deltaProcessor = new SimpleDatabaseDeltaProcessor(null, currentText);
-            var DeltaHello = deltaProcessor.CreateDelta("A", "Hello");
-            var DeltaWorld = deltaProcessor.CreateDelta("A", "World");
-            await deltaProcessor.ProcessDeltasAsync(new List<IDelta>{ DeltaHello, DeltaWorld },default);
-            var Actual = currentText.ToString();
+            List<SimpleDatabaseRecord> textRecords=new List<SimpleDatabaseRecord>();
+            IDeltaProcessor deltaProcessor = new SimpleDatabaseDeltaProcessor(null, textRecords);
 
-            var Expected = $"Hello{System.Environment.NewLine}World{System.Environment.NewLine}";
-            Assert.AreEqual(Expected,Actual);
+
+            List<IDelta> deltas = new List<IDelta>();
+            MemoryDeltaStore memoryDeltaStore= new MemoryDeltaStore(deltas);
+            List<SimpleDatabaseRecord> data = new List<SimpleDatabaseRecord>();
+            SimpleDatabase db = new SimpleDatabase(memoryDeltaStore, "A", data);
+
+            await db.Add(new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" });
+            await db.Add(new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "World" });
+            IEnumerable<IDelta> DeltasFromDeltaStore = await memoryDeltaStore.GetDeltasAsync(Guid.Empty, default);
+            await deltaProcessor.ProcessDeltasAsync(DeltasFromDeltaStore, default);
+
+            var test = textRecords.Count;
+            
+          
+           
 
         }
     }

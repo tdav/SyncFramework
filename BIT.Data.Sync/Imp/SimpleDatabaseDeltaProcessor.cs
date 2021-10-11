@@ -9,15 +9,13 @@ using System.Linq;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public class SimpleDatabaseDeltaProcessor : DeltaProcessorBase
+    public class SimpleDatabaseDeltaProcessor :DeltaProcessorBase 
     {
-        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings) : this(deltaStoreSettings,new StringBuilder())
+        
+        List<SimpleDatabaseRecord> _CurrentText;
+        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings, List<SimpleDatabaseRecord> CurrentData) : base(deltaStoreSettings)
         {
-        }
-        StringBuilder _CurrentText;
-        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings,StringBuilder CurrentText) : base(deltaStoreSettings)
-        {
-            _CurrentText=CurrentText;
+            _CurrentText= CurrentData;
         }
         public override Task ProcessDeltasAsync(IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
@@ -26,8 +24,24 @@ namespace BIT.Data.Sync.TextImp
             foreach (IDelta delta in deltas)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var DeltaValue= this.GetDeltaOperations<string>(delta);
-                this._CurrentText.AppendLine(DeltaValue);
+                var Modification= this.GetDeltaOperations<SimpleDatabaseModification>(delta);
+                switch (Modification.Operation)
+                {
+                    case OperationType.Add:
+                        this._CurrentText.Add(Modification.Record);
+                        break;
+                    case OperationType.Delete:
+                        var ObjectToDelete=  this._CurrentText.FirstOrDefault(x=>x.Key==Modification.Record.Key);
+                        this._CurrentText.Remove(ObjectToDelete);
+                        break;
+                    case OperationType.Update:
+                        var ObjectToUpdate = this._CurrentText.FirstOrDefault(x => x.Key == Modification.Record.Key);
+                        var Index= this._CurrentText.IndexOf(ObjectToUpdate);
+                        this._CurrentText[Index] = Modification.Record;
+                        break;
+                }
+              
+                
             }
             return Task.CompletedTask;
             

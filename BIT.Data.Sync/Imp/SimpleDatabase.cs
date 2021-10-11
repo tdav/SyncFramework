@@ -7,26 +7,27 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public class SimpleDatabase<T> where T : IRecord
+    public class SimpleDatabase 
     {
         public IDeltaProcessor DeltaProcessor { get; set; }
         public string Identity { get; set; }
         public IDeltaStore DeltaStore { get; set; }
-        public SimpleDatabase(IDeltaProcessor deltaProcessor, string identity, IDeltaStore deltaStore)
+        public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data)
         {
-            DeltaProcessor = deltaProcessor;
+          
             Identity = identity;
             DeltaStore = deltaStore;
+            this.Data= Data;
         }
-        List<T> Data;
-        public async void Update(T Instance)
+        List<SimpleDatabaseRecord> Data;
+        public async void Update(SimpleDatabaseRecord Instance)
         {
             var ObjectToUpdate = Data.FirstOrDefault(x => x.Key == Instance.Key);
             if (ObjectToUpdate != null)
             {
                 var Index = Data.IndexOf(ObjectToUpdate);
                 Data[Index] = Instance;
-                SimpleDatabaseModification item = new SimpleDatabaseModification(Operation.Update, Instance);
+                SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Update, Instance);
                 await SaveDelta(item);
             }
           
@@ -38,21 +39,21 @@ namespace BIT.Data.Sync.TextImp
             await DeltaStore.SaveDeltasAsync(new List<IDelta>() { Delta }, default);
         }
 
-        public void Delete(T Instance)
+        public void Delete(SimpleDatabaseRecord Instance)
         {
             var ObjectToDelete=  Data.FirstOrDefault(x=>x.Key==Instance.Key);
             if(ObjectToDelete!=null)
             {
                 Data.Remove(ObjectToDelete);
-                modifications.Add(new SimpleDatabaseModification(Operation.Delete, Instance));
+               
             }
            
         }
-        public async Task Add(T Instance)
+        public async Task Add(SimpleDatabaseRecord Instance)
         {
             Data.Add(Instance);
            
-            SimpleDatabaseModification item = new SimpleDatabaseModification(Operation.Add, Instance);
+            SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Add, Instance);
             await SaveDelta(item);
         }
     }
