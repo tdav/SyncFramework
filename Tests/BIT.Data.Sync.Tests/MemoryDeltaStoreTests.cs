@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BIT.Data.Sync.Tests
 {
-    public class MemoryDeltaStoreTests : MultiServerBaseTest
+        public class MemoryDeltaStoreTests : MultiServerBaseTest
     {
         TestClientFactory cf;
         [SetUp()]
