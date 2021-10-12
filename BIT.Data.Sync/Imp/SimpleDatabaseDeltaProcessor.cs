@@ -12,10 +12,10 @@ namespace BIT.Data.Sync.TextImp
     public class SimpleDatabaseDeltaProcessor :DeltaProcessorBase 
     {
         
-        List<SimpleDatabaseRecord> _CurrentText;
+        List<SimpleDatabaseRecord> _CurrentData;
         public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings, List<SimpleDatabaseRecord> CurrentData) : base(deltaStoreSettings)
         {
-            _CurrentText= CurrentData;
+            _CurrentData= CurrentData;
         }
         public override Task ProcessDeltasAsync(IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
@@ -28,16 +28,16 @@ namespace BIT.Data.Sync.TextImp
                 switch (Modification.Operation)
                 {
                     case OperationType.Add:
-                        this._CurrentText.Add(Modification.Record);
+                        this._CurrentData.Add(Modification.Record);
                         break;
                     case OperationType.Delete:
-                        var ObjectToDelete=  this._CurrentText.FirstOrDefault(x=>x.Key==Modification.Record.Key);
-                        this._CurrentText.Remove(ObjectToDelete);
+                        var ObjectToDelete=  this._CurrentData.FirstOrDefault(x=>x.Key==Modification.Record.Key);
+                        this._CurrentData.Remove(ObjectToDelete);
                         break;
                     case OperationType.Update:
-                        var ObjectToUpdate = this._CurrentText.FirstOrDefault(x => x.Key == Modification.Record.Key);
-                        var Index= this._CurrentText.IndexOf(ObjectToUpdate);
-                        this._CurrentText[Index] = Modification.Record;
+                        var ObjectToUpdate = this._CurrentData.FirstOrDefault(x => x.Key == Modification.Record.Key);
+                        var Index= this._CurrentData.IndexOf(ObjectToUpdate);
+                        this._CurrentData[Index] = Modification.Record;
                         break;
                 }
               
