@@ -10,14 +10,12 @@ using System.Linq;
 
 namespace BIT.Data.Sync.Tests
 {
-        public class MemoryDeltaStoreTests : MultiServerBaseTest
+        public class MemoryDeltaStoreTests 
     {
-        TestClientFactory cf;
+      
         [SetUp()]
-        public override void Setup()
+        public  void Setup()
         {
-            base.Setup();
-            cf = this.GetTestClientFactory();
 
         }
  
@@ -34,6 +32,20 @@ namespace BIT.Data.Sync.Tests
             Assert.AreEqual(1, await memoryDeltaStore.GetDeltaCountAsync(Guid.Empty,default));
 
         }
+
+        [Test]
+        public async Task SetAndGetLastProcessedDelta_Test()
+        {
+            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
+
+            var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
+
+            await memoryDeltaStore.SetLastProcessedDeltaAsync(DeltaHello.Index,default);
+
+            Assert.AreEqual(DeltaHello.Index, await memoryDeltaStore.GetLastProcessedDeltaAsync(default));
+
+        }
+
         [Test]
         public async Task GetDeltasAsync_Test()
         {
