@@ -78,61 +78,75 @@ namespace BIT.Data.Sync.Tests
         public async Task SyncMultipleClients_Add_And_Remove_Test()
         {
 
+            //1 - Delta store for master database
             MemoryDeltaStore MasterDeltaStore = new MemoryDeltaStore();
 
+            //2 - Create the master database
             SimpleDatabase Master = new SimpleDatabase(MasterDeltaStore, "Master");
+
+            //3 - Create a processor to allow the master to process other nodes deltas
             SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, Master.Data);
+
+            //4 - Create data and save it on the master
             SimpleDatabaseRecord Hello = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" };
             SimpleDatabaseRecord World = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "World" };
             
             await Master.Add(Hello);
             await Master.Add(World);
 
-            //Creating Database A
+            //5 - Creating a delta store for database A
             MemoryDeltaStore A_DeltaStore = new MemoryDeltaStore();
+
+            //6 - Creating database A
             SimpleDatabase A_Database = new SimpleDatabase(A_DeltaStore, "A");
             SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, A_Database.Data);
 
+            //7 - Create data and save it on database A
             SimpleDatabaseRecord Hola = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hola" };
             SimpleDatabaseRecord Mundo = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Mundo" };
             
             await A_Database.Add(Hola);
             await A_Database.Add(Mundo);
 
-            //Creating Database A
+            //8 - Creating a delta store for database B
             MemoryDeltaStore B_DeltaStore = new MemoryDeltaStore();
+
+            //9 - Creating database B
             SimpleDatabase B_Database = new SimpleDatabase(B_DeltaStore, "B");
             SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, B_Database.Data);
 
+            //10 - Create data and save it on database B
             SimpleDatabaseRecord Privet = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Privet" };
             SimpleDatabaseRecord Mir = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "mir" };
             await B_Database.Add(Privet);
             await B_Database.Add(Mir);
 
 
+            //11 - Get deltas from all databases
+
             var DeltasFromDatabaseA = await A_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
             var DeltasFromDatabaseB = await B_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
             var DeltasFromMaster = await Master.DeltaStore.GetDeltasAsync(Guid.Empty, default);
 
-           
+            //12 - Process deltas in the master and save the index of last delta processed
             await Master_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseA, default);
             await Master.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseA.Max(d => d.Index), default);
             await Master_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseB, default);
             await Master.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseB.Max(d => d.Index), default);
 
-
+            //13 - Process deltas in database A and save the index of last delta processed
             await A_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseB, default);
             await A_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseB.Max(d => d.Index), default);
             await A_DeltaProcessor.ProcessDeltasAsync(DeltasFromMaster, default);
             await A_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromMaster.Max(d => d.Index), default);
 
-
+            //15 - Process deltas in database B and save the index of last delta processed
             await B_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseA, default);
             await B_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseA.Max(d => d.Index), default);
             await B_DeltaProcessor.ProcessDeltasAsync(DeltasFromMaster, default);
             await B_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromMaster.Max(d => d.Index), default);
 
-
+            //16 - Write in the console the current state of each database
             Debug.WriteLine("Data in master");
             Master.Data.ForEach(r => Debug.WriteLine(r.ToString()));
             Debug.WriteLine("Data in master Last Processed Delta Index:" + await Master.DeltaStore.GetLastProcessedDeltaAsync(default));
@@ -148,20 +162,24 @@ namespace BIT.Data.Sync.Tests
             Debug.WriteLine("Data in B_Database Last Processed Delta Index:" + B_LastIndexProccesded);
 
 
-            //Lets delete
+            //17 - Delete records in the master database
             Master.Delete(Hola);
 
-            
+            //18 - Get deltas from the master and process them on the other n odes 
             await A_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(A_LastIndexProccesded, default),default);
             await B_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(B_LastIndexProccesded, default), default);
 
-
+            //19 - Write in the console the current state of each database
             Debug.WriteLine("Data in master");
             Master.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
             Debug.WriteLine("Data in A_Database");
             A_Database.Data.OrderBy(x=>x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
             Debug.WriteLine("Data in B_Database");
             B_Database.Data.OrderBy(x=>x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+
+            Assert.AreEqual(5, Master.Data.Count);
+            Assert.AreEqual(5, A_Database.Data.Count);
+            Assert.AreEqual(5, B_Database.Data.Count);
         }
         [Test]
         public async Task ProcessDeltasAsync_Test()
