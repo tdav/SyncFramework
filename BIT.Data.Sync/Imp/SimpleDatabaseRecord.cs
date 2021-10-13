@@ -12,5 +12,9 @@ namespace BIT.Data.Sync.TextImp
         }
 
         public Guid Key { get; set; }
+        public override string ToString()
+        {
+            return $"{Key} : {Text}";
+        }
     }
 }

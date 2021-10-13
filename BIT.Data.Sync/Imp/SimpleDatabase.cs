@@ -12,14 +12,19 @@ namespace BIT.Data.Sync.TextImp
         public IDeltaProcessor DeltaProcessor { get; set; }
         public string Identity { get; set; }
         public IDeltaStore DeltaStore { get; set; }
+        public List<SimpleDatabaseRecord> Data { get => _Data; private set => _Data = value; }
+        List<SimpleDatabaseRecord> _Data;
         public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data)
         {
-          
             Identity = identity;
             DeltaStore = deltaStore;
             this.Data= Data;
         }
-        List<SimpleDatabaseRecord> Data;
+        public SimpleDatabase(IDeltaStore deltaStore, string identity):this(deltaStore, identity,new List<SimpleDatabaseRecord>())
+        {
+         
+        }
+       
         public async void Update(SimpleDatabaseRecord Instance)
         {
             var ObjectToUpdate = Data.FirstOrDefault(x => x.Key == Instance.Key);
@@ -39,13 +44,14 @@ namespace BIT.Data.Sync.TextImp
             await DeltaStore.SaveDeltasAsync(new List<IDelta>() { Delta }, default);
         }
 
-        public void Delete(SimpleDatabaseRecord Instance)
+        public async void Delete(SimpleDatabaseRecord Instance)
         {
             var ObjectToDelete=  Data.FirstOrDefault(x=>x.Key==Instance.Key);
             if(ObjectToDelete!=null)
             {
                 Data.Remove(ObjectToDelete);
-               
+                SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Delete, Instance);
+                await SaveDelta(item);
             }
            
         }

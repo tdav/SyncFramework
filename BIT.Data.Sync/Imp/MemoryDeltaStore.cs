@@ -9,19 +9,22 @@ namespace BIT.Data.Sync.TextImp
 {
     public class MemoryDeltaStore : BIT.Data.Sync.DeltaStoreBase
     {
-        IList<IDelta> Deltas;
-
+        readonly IList<IDelta> _Deltas;
+        public IList<IDelta> Deltas => _Deltas;
+        Guid LastPushedDelta;
+        Guid LastProcessedDelta;
         public MemoryDeltaStore(IEnumerable<IDelta> Deltas)
         {
-            this.Deltas = new List<IDelta>(Deltas);
+            this._Deltas = new List<IDelta>(Deltas);
 
         }
-
-
-        protected MemoryDeltaStore()
+        public MemoryDeltaStore()
         {
+            this._Deltas = new List<IDelta>();
 
         }
+
+      
         //TODO fix the use of MemoryDb
         public MemoryDeltaStore(DeltaStoreSettings deltaStoreSettings) : base(deltaStoreSettings)
         {
@@ -49,7 +52,7 @@ namespace BIT.Data.Sync.TextImp
             cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(Deltas.Where(d => d.Index.CompareTo(startindex) > 0).ToList().Cast<IDelta>());
         }
-        Guid LastProcessedDelta;
+      
         public override async Task<Guid> GetLastProcessedDeltaAsync(CancellationToken cancellationToken = default)
         {
             return LastProcessedDelta;
@@ -63,8 +66,6 @@ namespace BIT.Data.Sync.TextImp
 
         }
 
-       
-        Guid LastPushedDelta;
         public async override Task<Guid> GetLastPushedDeltaAsync(CancellationToken cancellationToken)
         {
             return LastPushedDelta;
