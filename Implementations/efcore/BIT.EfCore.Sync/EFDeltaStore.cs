@@ -47,19 +47,19 @@ namespace BIT.EfCore.Sync
 
         }
 
-        public override Task<IEnumerable<IDelta>> GetDeltasAsync(Guid startindex, string identity ,CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            IQueryable<EFDelta> result = DeltaDbContext.Deltas.Where(d => d.Index.CompareTo(startindex) > 0 && string.Compare(d.Identity, identity, StringComparison.Ordinal) != 0);
-            List<EFDelta> eFDeltas = result.ToList();
-            return Task.FromResult(eFDeltas.Cast<IDelta>());
-        }
+        //public override Task<IEnumerable<IDelta>> GetDeltasAsync(Guid startindex, string identity ,CancellationToken cancellationToken = default)
+        //{
+        //    cancellationToken.ThrowIfCancellationRequested();
+        //    IQueryable<EFDelta> result = DeltaDbContext.Deltas.Where(d => d.Index.CompareTo(startindex) > 0 && string.Compare(d.Identity, identity, StringComparison.Ordinal) != 0);
+        //    List<EFDelta> eFDeltas = result.ToList();
+        //    return Task.FromResult(eFDeltas.Cast<IDelta>());
+        //}
 
-        public override Task<IEnumerable<IDelta>> GetDeltasToSendAsync(Guid startindex, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(DeltaDbContext.Deltas.Where(d => d.Index.CompareTo(startindex) > 0).ToList().Cast<IDelta>());
-        }
+        //public override Task<IEnumerable<IDelta>> GetDeltasToSendAsync(Guid startindex, CancellationToken cancellationToken = default)
+        //{
+        //    cancellationToken.ThrowIfCancellationRequested();
+        //    return Task.FromResult(DeltaDbContext.Deltas.Where(d => d.Index.CompareTo(startindex) > 0).ToList().Cast<IDelta>());
+        //}
 
         public override async Task<Guid> GetLastProcessedDeltaAsync(CancellationToken cancellationToken = default)
         {
@@ -129,6 +129,14 @@ namespace BIT.EfCore.Sync
             DeltaDbContext.RemoveRange(DeltaDbContext.Deltas);
             await DeltaDbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
+        }
+
+        public override Task<IEnumerable<IDelta>> GetDeltasFromOtherNodes(Guid startindex, string identity, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            IQueryable<EFDelta> result = DeltaDbContext.Deltas.Where(d => d.Index.CompareTo(startindex) > 0 && string.Compare(d.Identity, identity, StringComparison.Ordinal) != 0);
+            List<EFDelta> eFDeltas = result.ToList();
+            return Task.FromResult(eFDeltas.Cast<IDelta>());
         }
     }
 

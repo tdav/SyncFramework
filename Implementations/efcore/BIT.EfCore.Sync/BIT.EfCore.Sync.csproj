@@ -30,6 +30,9 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\BIT.Data.Sync\BIT.Data.Sync.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="DeltaStores\" />
+	</ItemGroup>
 	<!--NugetProject ReferencesSection End-->
 	<Target Name="CopyPackage" AfterTargets="Pack">
 		<Copy SourceFiles="bin\$(ConfigurationName)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(USERPROFILE)\Documents\MyNugets\" />
