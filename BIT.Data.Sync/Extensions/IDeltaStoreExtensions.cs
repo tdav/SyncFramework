@@ -33,7 +33,7 @@ namespace BIT.Data.Sync.Extensions
             {
                 Date = now,
                 Identity = instance.Identity,
-                Processed = false,
+               
                 Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)),
                 Index = Delta.GenerateComb()
             };
@@ -47,7 +47,7 @@ namespace BIT.Data.Sync.Extensions
             {
                 Date = now,
                 Identity = Identity,
-                Processed = false,
+              
                 Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)),
                 Index = Delta.GenerateComb()
             };

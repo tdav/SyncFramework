@@ -51,7 +51,7 @@ namespace BIT.Data.Sync.Extensions
         public static IDelta CreateDeltaCore(string Identity, object Operations)
         {
             DateTime now = DateTime.Now;
-            var delta = new Delta() { Date = now, Identity = Identity, Processed = false, Operation = CompressCore(SerializeCore(Operations)) };
+            var delta = new Delta() { Date = now, Identity = Identity,  Operation = CompressCore(SerializeCore(Operations)) };
             delta.Epoch = now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             return delta;
         }

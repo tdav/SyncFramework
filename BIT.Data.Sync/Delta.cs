@@ -16,12 +16,12 @@ namespace BIT.Data.Sync
             return Provider.PostgreSql.Create();
            
         }
-        public Delta(string identity, byte[] operation, bool processed = false)
+        public Delta(string identity, byte[] operation)
         {
 
             Identity = identity;
             Operation = operation;
-            Processed = processed;
+          
         }
         public Delta(IDelta Delta)
         {
@@ -32,13 +32,13 @@ namespace BIT.Data.Sync
           
 
         }
-        public Delta(string identity, Guid index, byte[] operation, bool processed = false)
+        public Delta(string identity, Guid index, byte[] operation)
         {
 
             Identity = identity;
             Index = index;
             Operation = operation;
-            Processed = processed;
+         
         }
         public virtual DateTime Date { get; set; }
         public virtual string Identity { get; set; }
@@ -46,7 +46,7 @@ namespace BIT.Data.Sync
         public virtual Guid Index { get; set; }
 
         public virtual byte[] Operation { get; set; }
-        public virtual bool Processed { get; set; }
+     
         public virtual double Epoch { get; set; }
 
     }
