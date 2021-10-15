@@ -10,6 +10,11 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="DeltaStores\**" />
+	  <EmbeddedResource Remove="DeltaStores\**" />
+	  <None Remove="DeltaStores\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
 	</ItemGroup>
 	<!--Nuget Generation Section Start-->
@@ -29,9 +34,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\BIT.Data.Sync\BIT.Data.Sync.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="DeltaStores\" />
 	</ItemGroup>
 	<!--NugetProject ReferencesSection End-->
 	<Target Name="CopyPackage" AfterTargets="Pack">

@@ -33,7 +33,7 @@ namespace BIT.Data.Sync.Tests
             SimpleDatabase Master = new SimpleDatabase("Master", syncFrameworkClient);
 
             //3 - Create a processor to allow the master to process other nodes deltas
-            SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, Master.Data);
+            SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(Master.Data);
 
             //4 - Create data and save it on the master
             SimpleDatabaseRecord Hello = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" };
@@ -44,7 +44,7 @@ namespace BIT.Data.Sync.Tests
 
             //6 - Creating database A
             SimpleDatabase A_Database = new SimpleDatabase("A", syncFrameworkClient);
-            SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, A_Database.Data);
+            SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(A_Database.Data);
 
             //7 - Create data and save it on database A
             SimpleDatabaseRecord Hola = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hola" };
@@ -57,7 +57,7 @@ namespace BIT.Data.Sync.Tests
 
             //9 - Creating database B
             SimpleDatabase B_Database = new SimpleDatabase("B", syncFrameworkClient);
-            SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, B_Database.Data);
+            SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(B_Database.Data);
 
             //10 - Create data and save it on database B
             SimpleDatabaseRecord Privet = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Privet" };
@@ -70,6 +70,8 @@ namespace BIT.Data.Sync.Tests
             await Master.PushAsync();
             await A_Database.PushAsync();
             await B_Database.PushAsync();
+
+
 
             var DeltasFromDatabaseA = await A_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
             var DeltasFromDatabaseB = await B_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
@@ -149,7 +151,7 @@ namespace BIT.Data.Sync.Tests
             SimpleDatabase Master = new SimpleDatabase(MasterDeltaStore, "Master");
 
             //3 - Create a processor to allow the master to process other nodes deltas
-            SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, Master.Data);
+            SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(Master.Data);
 
             //4 - Create data and save it on the master
             SimpleDatabaseRecord Hello = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" };
@@ -163,7 +165,7 @@ namespace BIT.Data.Sync.Tests
 
             //6 - Creating database A
             SimpleDatabase A_Database = new SimpleDatabase(A_DeltaStore, "A");
-            SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, A_Database.Data);
+            SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(A_Database.Data);
 
             //7 - Create data and save it on database A
             SimpleDatabaseRecord Hola = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hola" };
@@ -177,7 +179,7 @@ namespace BIT.Data.Sync.Tests
 
             //9 - Creating database B
             SimpleDatabase B_Database = new SimpleDatabase(B_DeltaStore, "B");
-            SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, B_Database.Data);
+            SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(B_Database.Data);
 
             //10 - Create data and save it on database B
             SimpleDatabaseRecord Privet = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Privet" };

@@ -13,7 +13,7 @@ namespace BIT.Data.Sync.TextImp
     {
         
         List<SimpleDatabaseRecord> _CurrentData;
-        public SimpleDatabaseDeltaProcessor(DeltaStoreSettings deltaStoreSettings, List<SimpleDatabaseRecord> CurrentData) : base(deltaStoreSettings)
+        public SimpleDatabaseDeltaProcessor(List<SimpleDatabaseRecord> CurrentData) 
         {
             _CurrentData= CurrentData;
         }

@@ -10,12 +10,11 @@ namespace BIT.Data.Sync.TextImp
 {
     public class SimpleDatabase : ISyncClientNode
     {
-        public IDeltaProcessor DeltaProcessor { get; set; }
+        public IDeltaProcessor DeltaProcessor { get; protected set; }
         public string Identity { get; set; }
-        public IDeltaStore DeltaStore { get; set; }
-        public List<SimpleDatabaseRecord> Data { get => _Data; private set => _Data = value; }
-
-        public ISyncFrameworkClient SyncFrameworkClient  { get;private set ;}
+        public IDeltaStore DeltaStore { get; protected set; }
+        public List<SimpleDatabaseRecord> Data { get => _Data; protected set => _Data = value; }
+        public ISyncFrameworkClient SyncFrameworkClient  { get; protected set ;}
 
         List<SimpleDatabaseRecord> _Data;
         public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data, ISyncFrameworkClient SyncFrameworkClient)
@@ -24,6 +23,8 @@ namespace BIT.Data.Sync.TextImp
             DeltaStore = deltaStore;
             this.Data= Data;
             this.SyncFrameworkClient = SyncFrameworkClient;
+            this.DeltaProcessor = new SimpleDatabaseDeltaProcessor(this.Data);
+        
         }
         public SimpleDatabase(IDeltaStore deltaStore, string identity, ISyncFrameworkClient SyncFrameworkClient) :this(deltaStore, identity,new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
         {
