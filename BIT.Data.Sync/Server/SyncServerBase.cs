@@ -32,7 +32,7 @@ namespace BIT.Data.Sync.Server
             return result;
         }
 
-        public Task ProcessDeltasAsync(IEnumerable<IDelta> deltas, string Name, CancellationToken cancellationToken)
+        public Task ProcessDeltasAsync(string Name, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var Options = this._options.Get(Name);
@@ -41,7 +41,7 @@ namespace BIT.Data.Sync.Server
 
         }
 
-        public Task SaveDeltasAsync(IEnumerable<IDelta> deltas, string name, CancellationToken cancellationToken)
+        public Task SaveDeltasAsync(string name, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var Options = this._options.Get(name);

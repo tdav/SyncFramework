@@ -10,9 +10,9 @@ namespace BIT.Data.Sync.Server
 
     public interface ISyncServer
     {
-        Task SaveDeltasAsync(IEnumerable<IDelta> deltas, string name, CancellationToken cancellationToken);
-        Task<IEnumerable<IDelta>> GetDeltasAsync(string name, Guid startindex, string identity, CancellationToken cancellationToken);
-        Task ProcessDeltasAsync(IEnumerable<IDelta> deltas, string Name, CancellationToken cancellationToken);
+        Task SaveDeltasAsync(string DeltaStoreId, IEnumerable<IDelta> deltas, CancellationToken cancellationToken);
+        Task<IEnumerable<IDelta>> GetDeltasAsync(string DeltaStoreId, Guid startindex, string identity, CancellationToken cancellationToken);
+        Task ProcessDeltasAsync(string DeltaStoreId, IEnumerable<IDelta> deltas, CancellationToken cancellationToken);
        
 
     }

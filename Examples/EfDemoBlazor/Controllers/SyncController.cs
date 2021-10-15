@@ -43,7 +43,7 @@ namespace EfDemoBlazor.Controllers
             _logger.LogInformation(Message);
          
 
-            await this._SyncServer.SaveDeltasAsync(deltas, DeltaStoreName,new CancellationToken());
+            await this._SyncServer.SaveDeltasAsync(DeltaStoreName, deltas, new CancellationToken());
            
         }
         [HttpGet("Fetch")]

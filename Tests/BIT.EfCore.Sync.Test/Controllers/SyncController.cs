@@ -35,7 +35,7 @@ namespace BIT.EfCore.Sync.Test.Controllers
 
             string DeltaStoreName = GetHeader("DeltaStoreName");
             string DeltaProcessorName = GetHeader("DeltaProcessorName");
-            await this._SyncServer.SaveDeltasAsync(deltas, DeltaStoreName,new CancellationToken());
+            await this._SyncServer.SaveDeltasAsync(DeltaStoreName, deltas, new CancellationToken());
             //await this._SyncServer.ProcessDeltasAsync(DeltaProcessorName, deltas);
         }
         [HttpGet("Fetch")]

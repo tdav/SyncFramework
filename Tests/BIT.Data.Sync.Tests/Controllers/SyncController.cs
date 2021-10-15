@@ -35,7 +35,7 @@ namespace BIT.Data.Sync.Tests.Controllers
 
             string DeltaStoreName = GetHeader("DeltaStoreName");
             string DeltaProcessorName = GetHeader("DeltaProcessorName");
-            await _SyncServer.SaveDeltasAsync(deltas, DeltaStoreName, new CancellationToken());
+            await _SyncServer.SaveDeltasAsync(DeltaStoreName, deltas, new CancellationToken());
             //await this._SyncServer.ProcessDeltasAsync(DeltaProcessorName, deltas);
         }
         [HttpGet("Fetch")]
