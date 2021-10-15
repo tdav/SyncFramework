@@ -25,7 +25,7 @@ namespace BIT.Data.Sync.Tests
         {
             //0 - Get the network client connected to the API controller exposed by the test infrastructure
             var httpclient = this.GetTestClientFactory().CreateClient("TestClient");
-            ISyncFrameworkClient syncFrameworkClient = new SyncFrameworkClient(httpclient);
+            ISyncFrameworkClient syncFrameworkClient = new SyncFrameworkHttpClient(httpclient);
 
            
 

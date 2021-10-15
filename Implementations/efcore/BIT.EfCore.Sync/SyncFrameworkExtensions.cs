@@ -16,12 +16,12 @@ namespace BIT.EfCore.Sync
 
         public static IServiceCollection AddEfSynchronization(this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> DeltaContextOption, HttpClient httpClient, IEnumerable<DeltaGeneratorBase> deltaGenerators)
         {
-            SyncFrameworkClient syncFrameworkClient = new SyncFrameworkClient(httpClient);
+            SyncFrameworkHttpClient syncFrameworkClient = new SyncFrameworkHttpClient(httpClient);
             return serviceCollection.AddEfSynchronization(DeltaContextOption, syncFrameworkClient, deltaGenerators);
         }
         public static IServiceCollection AddEfSynchronization(this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> DeltaContextOption, string EndpointName, string ServerUrl, IEnumerable<DeltaGeneratorBase> deltaGenerators)
         {
-            SyncFrameworkClient syncFrameworkClient = new SyncFrameworkClient(ServerUrl,EndpointName);
+            SyncFrameworkHttpClient syncFrameworkClient = new SyncFrameworkHttpClient(ServerUrl,EndpointName);
             return serviceCollection.AddEfSynchronization(DeltaContextOption, syncFrameworkClient, deltaGenerators);
         }
         public static IServiceCollection AddEfSynchronization(this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> DeltaContextOption, ISyncFrameworkClient httpClient, IEnumerable<DeltaGeneratorBase> deltaGenerators)

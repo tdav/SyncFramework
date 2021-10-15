@@ -11,16 +11,16 @@ using System.Web;
 namespace BIT.Data.Sync.Client
 {
     //TODO Review cancellation token implementation https://docs.devexpress.com/CodeRushForRoslyn/119690/static-code-analysis/analyzers-library/crr0035-no-cancellation-token-parameter-in-the-asynchronous-method
-    public class SyncFrameworkClient : ISyncFrameworkClient
+    public class SyncFrameworkHttpClient : ISyncFrameworkClient
     {
         HttpClient _httpClient;
         public string EndpointName { get; }
-        public SyncFrameworkClient(HttpClient httpClient)
+        public SyncFrameworkHttpClient(HttpClient httpClient)
         {
             this.EndpointName = EndpointName;
             _httpClient = httpClient;
         }
-        public SyncFrameworkClient(string BaseAddress, string DeltaStoreId)
+        public SyncFrameworkHttpClient(string BaseAddress, string DeltaStoreId)
         {
             this.EndpointName = DeltaStoreId;
             _httpClient = new HttpClient();
