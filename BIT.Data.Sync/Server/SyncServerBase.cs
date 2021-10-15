@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Server
 {
-    public class SyncServerBase : ISyncServer
+    public class SyncServerBase : ISyncServerNode
     {
         IOptionsSnapshot<DeltaStoreSettings> _options;
         ReflectionService _deltaStoreFactory;

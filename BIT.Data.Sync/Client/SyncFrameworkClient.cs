@@ -35,8 +35,11 @@ namespace BIT.Data.Sync.Client
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("/Sync/Push", data, cancellationToken).ConfigureAwait(false);
         }
-        public virtual async Task<List<Delta>> FetchAsync(Dictionary<string, string> QueryParams, CancellationToken cancellationToken = default)
+        public virtual async Task<List<Delta>> FetchAsync(Guid startindex, string identity, CancellationToken cancellationToken = default)
         {
+            var QueryParams = new Dictionary<string, string>();
+            QueryParams.Add(nameof(startindex), startindex.ToString());
+            QueryParams.Add(nameof(identity), identity);
             cancellationToken.ThrowIfCancellationRequested();
             var query = HttpUtility.ParseQueryString("");
             foreach (KeyValuePair<string, string> CurrentParam in QueryParams)

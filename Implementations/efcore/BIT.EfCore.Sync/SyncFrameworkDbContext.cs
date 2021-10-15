@@ -6,7 +6,7 @@ using System;
 
 namespace BIT.EfCore.Sync
 {
-    public abstract class SyncFrameworkDbContext : DbContext, ISyncFrameworkLink
+    public abstract class SyncFrameworkDbContext : DbContext, ISyncClientNode
     {
         /// <summary>
         /// <para>

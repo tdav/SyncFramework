@@ -17,14 +17,14 @@ namespace BIT.Data.Sync.Tests.Controllers
 
 
         private readonly ILogger<SyncController> _logger;
-        private readonly ISyncServer _SyncServer;
+        private readonly ISyncServerNode _SyncServer;
         protected string GetHeader(string HeaderName)
         {
             return HttpContext.Request.Headers[HeaderName];
         }
 
 
-        public SyncController(ILogger<SyncController> logger, ISyncServer SyncServer)
+        public SyncController(ILogger<SyncController> logger, ISyncServerNode SyncServer)
         {
             _logger = logger;
             _SyncServer = SyncServer;

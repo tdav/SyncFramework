@@ -23,6 +23,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task SaveDeltasAsync_Test()
         {
+
             IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
 
             var  DeltaHello=  memoryDeltaStore.CreateDelta("A", "Hello");

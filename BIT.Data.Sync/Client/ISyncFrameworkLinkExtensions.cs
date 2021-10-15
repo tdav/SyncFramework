@@ -9,23 +9,23 @@ namespace BIT.Data.Sync.Client
     public static class ISyncFrameworkLinkExtensions
     {
 
-        public static async Task<List<Delta>> FetchAsync(this ISyncFrameworkLink instance, CancellationToken cancellationToken = default)
+        public static async Task<List<Delta>> FetchAsync(this ISyncClientNode instance, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var LastDetalIndex = await instance.DeltaStore.GetLastProcessedDeltaAsync(cancellationToken).ConfigureAwait(false);
-            var query = new Dictionary<string, string>
-            {
+//            var query = new Dictionary<string, string>
+//            {
 
-#pragma warning disable CRRSP06 // A misspelled word has been found
-                ["startindex"] = LastDetalIndex.ToString(),
-#pragma warning restore CRRSP06 // A misspelled word has been found
-                ["identity"] = instance.DeltaStore.Identity,
+//#pragma warning disable CRRSP06 // A misspelled word has been found
+//                ["startindex"] = LastDetalIndex.ToString(),
+//#pragma warning restore CRRSP06 // A misspelled word has been found
+//                ["identity"] = instance.DeltaStore.Identity,
 
-            };
+//            };
 
-            return await instance.SyncFrameworkClient.FetchAsync(query, cancellationToken).ConfigureAwait(false);
+            return await instance.SyncFrameworkClient.FetchAsync(LastDetalIndex, instance.DeltaStore.Identity, cancellationToken).ConfigureAwait(false);
         }
-        public static async Task PullAsync(this ISyncFrameworkLink instance, CancellationToken cancellationToken = default)
+        public static async Task PullAsync(this ISyncClientNode instance, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var Deltas = await instance.FetchAsync(cancellationToken).ConfigureAwait(false);
@@ -37,7 +37,7 @@ namespace BIT.Data.Sync.Client
             }
 
         }
-        public static async Task PushAsync(this ISyncFrameworkLink instance, CancellationToken cancellationToken = default)
+        public static async Task PushAsync(this ISyncClientNode instance, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var LastPushedDelta = await instance.DeltaStore.GetLastPushedDeltaAsync(cancellationToken).ConfigureAwait(false);

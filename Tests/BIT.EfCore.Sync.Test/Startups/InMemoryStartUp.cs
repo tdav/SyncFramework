@@ -56,7 +56,7 @@ namespace BIT.EfCore.Sync.Test.Startups
 
             //Consumer
             //services.AddScoped<SlackNotificationService>();
-            services.AddScoped<ISyncServer, SyncServerBase>();
+            services.AddScoped<ISyncServerNode, SyncServerBase>();
             //services.AddSyncServer()
         }
 

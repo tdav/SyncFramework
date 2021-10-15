@@ -15,5 +15,10 @@ namespace BIT.Data.Sync.Tests.ClientServerTests
         {
             base.Setup();
         }
+        [Test]
+        public async Task Push_Test()
+        {
+            var HttpClient=  TestServerClientFactory.CreateClient("");
+        }
     }
 }

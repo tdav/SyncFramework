@@ -64,7 +64,7 @@ namespace EfDemoBlazor
 
 
             services.AddSingleton(typeof(ConsoleEventService));
-            services.AddScoped<ISyncServer, SyncServerBase>();
+            services.AddScoped<ISyncServerNode, SyncServerBase>();
 
            
            

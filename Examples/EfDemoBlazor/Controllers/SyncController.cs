@@ -18,7 +18,7 @@ namespace EfDemoBlazor.Controllers
 
 
         private readonly ILogger<SyncController> _logger;
-        private readonly ISyncServer _SyncServer;
+        private readonly ISyncServerNode _SyncServer;
         protected string GetHeader(string HeaderName)
         {
             return this.HttpContext.Request.Headers[HeaderName];
@@ -26,7 +26,7 @@ namespace EfDemoBlazor.Controllers
 
         
     
-        public SyncController(ILogger<SyncController> logger, ISyncServer SyncServer)
+        public SyncController(ILogger<SyncController> logger, ISyncServerNode SyncServer)
         {
            
             _logger = logger;
