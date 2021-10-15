@@ -31,7 +31,7 @@ namespace BIT.Data.Sync.Tests.Infrastructure
 
 
             hostBuilder.UseConfiguration(Configuration);
-            hostBuilder.UseStartup<InMemoryStartUp>();
+            hostBuilder.UseStartup<TestStartup>();
             _testServer = new Microsoft.AspNetCore.TestHost.TestServer(hostBuilder);
 
             var testClient = _testServer.CreateClient();

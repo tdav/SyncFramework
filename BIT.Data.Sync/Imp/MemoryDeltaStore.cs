@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public class MemoryDeltaStore : BIT.Data.Sync.DeltaStoreBase
+    public class MemoryDeltaStore : DeltaStoreBase
     {
         readonly IList<IDelta> _Deltas;
         public IList<IDelta> Deltas => _Deltas;

@@ -1,4 +1,5 @@
-﻿using BIT.Data.Sync.Extensions;
+﻿using BIT.Data.Sync.Client;
+using BIT.Data.Sync.Extensions;
 using BIT.Data.Sync.Tests.Infrastructure;
 using BIT.Data.Sync.TextImp;
 using NUnit.Framework;
@@ -11,22 +12,25 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Tests
 {
-    public class SimpleDatabase_Tests 
+    public class SimpleDatabase_Tests:MultiServerBaseTest
     {
 
         [SetUp()]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
         }
         [Test]
         public async Task SyncMultipleClients_CRUD_Test()
         {
+            //0 - Get the network client connected to the API controller exposed by the test infrastructure
+            var httpclient = this.GetTestClientFactory().CreateClient("TestClient");
+            ISyncFrameworkClient syncFrameworkClient = new SyncFrameworkClient(httpclient);
 
-            //1 - Delta store for master database
-            MemoryDeltaStore MasterDeltaStore = new MemoryDeltaStore();
+           
 
             //2 - Create the master database
-            SimpleDatabase Master = new SimpleDatabase(MasterDeltaStore, "Master");
+            SimpleDatabase Master = new SimpleDatabase("Master", syncFrameworkClient);
 
             //3 - Create a processor to allow the master to process other nodes deltas
             SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, Master.Data);
@@ -38,11 +42,8 @@ namespace BIT.Data.Sync.Tests
             await Master.Add(Hello);
             await Master.Add(World);
 
-            //5 - Creating a delta store for database A
-            MemoryDeltaStore A_DeltaStore = new MemoryDeltaStore();
-
             //6 - Creating database A
-            SimpleDatabase A_Database = new SimpleDatabase(A_DeltaStore, "A");
+            SimpleDatabase A_Database = new SimpleDatabase("A", syncFrameworkClient);
             SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, A_Database.Data);
 
             //7 - Create data and save it on database A
@@ -52,11 +53,10 @@ namespace BIT.Data.Sync.Tests
             await A_Database.Add(Hola);
             await A_Database.Add(Mundo);
 
-            //8 - Creating a delta store for database B
-            MemoryDeltaStore B_DeltaStore = new MemoryDeltaStore();
+           
 
             //9 - Creating database B
-            SimpleDatabase B_Database = new SimpleDatabase(B_DeltaStore, "B");
+            SimpleDatabase B_Database = new SimpleDatabase("B", syncFrameworkClient);
             SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, B_Database.Data);
 
             //10 - Create data and save it on database B
@@ -67,6 +67,9 @@ namespace BIT.Data.Sync.Tests
 
 
             //11 - Get deltas from all databases
+            await Master.PushAsync();
+            await A_Database.PushAsync();
+            await B_Database.PushAsync();
 
             var DeltasFromDatabaseA = await A_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
             var DeltasFromDatabaseB = await B_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
@@ -135,6 +138,122 @@ namespace BIT.Data.Sync.Tests
             Assert.AreEqual(5, A_Database.Data.Count);
             Assert.AreEqual(5, B_Database.Data.Count);
         }
-        
+        [Test]
+        public async Task SyncMultipleClients_CRUD_Network_Test()
+        {
+
+            //1 - Delta store for master database
+            MemoryDeltaStore MasterDeltaStore = new MemoryDeltaStore();
+
+            //2 - Create the master database
+            SimpleDatabase Master = new SimpleDatabase(MasterDeltaStore, "Master");
+
+            //3 - Create a processor to allow the master to process other nodes deltas
+            SimpleDatabaseDeltaProcessor Master_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, Master.Data);
+
+            //4 - Create data and save it on the master
+            SimpleDatabaseRecord Hello = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" };
+            SimpleDatabaseRecord World = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "World" };
+
+            await Master.Add(Hello);
+            await Master.Add(World);
+
+            //5 - Creating a delta store for database A
+            MemoryDeltaStore A_DeltaStore = new MemoryDeltaStore();
+
+            //6 - Creating database A
+            SimpleDatabase A_Database = new SimpleDatabase(A_DeltaStore, "A");
+            SimpleDatabaseDeltaProcessor A_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, A_Database.Data);
+
+            //7 - Create data and save it on database A
+            SimpleDatabaseRecord Hola = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hola" };
+            SimpleDatabaseRecord Mundo = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Mundo" };
+
+            await A_Database.Add(Hola);
+            await A_Database.Add(Mundo);
+
+            //8 - Creating a delta store for database B
+            MemoryDeltaStore B_DeltaStore = new MemoryDeltaStore();
+
+            //9 - Creating database B
+            SimpleDatabase B_Database = new SimpleDatabase(B_DeltaStore, "B");
+            SimpleDatabaseDeltaProcessor B_DeltaProcessor = new SimpleDatabaseDeltaProcessor(null, B_Database.Data);
+
+            //10 - Create data and save it on database B
+            SimpleDatabaseRecord Privet = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Privet" };
+            SimpleDatabaseRecord Mir = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "mir" };
+            await B_Database.Add(Privet);
+            await B_Database.Add(Mir);
+
+
+            //11 - Get deltas from all databases
+
+            var DeltasFromDatabaseA = await A_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
+            var DeltasFromDatabaseB = await B_Database.DeltaStore.GetDeltasAsync(Guid.Empty, default);
+            var DeltasFromMaster = await Master.DeltaStore.GetDeltasAsync(Guid.Empty, default);
+
+            //12 - Process deltas in the master and save the index of last delta processed
+            await Master_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseA, default);
+            await Master.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseA.Max(d => d.Index), default);
+            await Master_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseB, default);
+            await Master.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseB.Max(d => d.Index), default);
+
+            //13 - Process deltas in database A and save the index of last delta processed
+            await A_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseB, default);
+            await A_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseB.Max(d => d.Index), default);
+            await A_DeltaProcessor.ProcessDeltasAsync(DeltasFromMaster, default);
+            await A_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromMaster.Max(d => d.Index), default);
+
+            //14 - Process deltas in database B and save the index of last delta processed
+            await B_DeltaProcessor.ProcessDeltasAsync(DeltasFromDatabaseA, default);
+            await B_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromDatabaseA.Max(d => d.Index), default);
+            await B_DeltaProcessor.ProcessDeltasAsync(DeltasFromMaster, default);
+            await B_Database.DeltaStore.SetLastProcessedDeltaAsync(DeltasFromMaster.Max(d => d.Index), default);
+
+            //15 - Write in the console the current state of each database
+            Debug.WriteLine("Data in master");
+            Master.Data.ForEach(r => Debug.WriteLine(r.ToString()));
+            Debug.WriteLine("Data in master Last Processed Delta Index:" + await Master.DeltaStore.GetLastProcessedDeltaAsync(default));
+
+            Debug.WriteLine("Data in A_Database");
+            A_Database.Data.ForEach(r => Debug.WriteLine(r.ToString()));
+            Guid A_LastIndexProccesded = await A_Database.DeltaStore.GetLastProcessedDeltaAsync(default);
+            Debug.WriteLine("Data in A_Database Last Processed Delta Index:" + A_LastIndexProccesded);
+
+            Debug.WriteLine("Data in B_Database");
+            B_Database.Data.ForEach(r => Debug.WriteLine(r.ToString()));
+            Guid B_LastIndexProccesded = await B_Database.DeltaStore.GetLastProcessedDeltaAsync(default);
+            Debug.WriteLine("Data in B_Database Last Processed Delta Index:" + B_LastIndexProccesded);
+
+
+            //16 - Delete and update records in the master database
+            Master.Delete(Hola);
+            Mundo.Text = "HOLA MUNDO";
+            Master.Update(Mundo);
+
+            //17 - Get deltas from the master and process them on the other nodes 
+            await A_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(A_LastIndexProccesded, default), default);
+            await B_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(B_LastIndexProccesded, default), default);
+
+
+            Debug.WriteLine($"{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}");
+
+
+            //18 - Write in the console the current state of each database
+            Debug.WriteLine("Data in master");
+            Master.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+            Debug.WriteLine("Data in A_Database");
+            A_Database.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+            Debug.WriteLine("Data in B_Database");
+            B_Database.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+
+            Debug.WriteLine("");
+
+
+
+            Assert.AreEqual(5, Master.Data.Count);
+            Assert.AreEqual(5, A_Database.Data.Count);
+            Assert.AreEqual(5, B_Database.Data.Count);
+        }
     }
 }

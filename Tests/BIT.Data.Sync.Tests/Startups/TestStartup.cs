@@ -1,7 +1,7 @@
 ﻿using BIT.Data.Sync.Options;
 using BIT.Data.Sync.Server;
 using BIT.Data.Sync.Server.Extensions;
-
+using BIT.Data.Sync.TextImp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,9 +11,9 @@ using System.Collections.Generic;
 
 namespace BIT.Data.Sync.Tests.Startups
 {
-    public class InMemoryStartUp
+    public class TestStartup
     {
-        public InMemoryStartUp(IConfiguration configuration)
+        public TestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -26,35 +26,35 @@ namespace BIT.Data.Sync.Tests.Startups
             services.AddControllers();
 
 
-            //IConfigurationSection ConfigMemoryDeltaStore1 = Configuration.GetSection("DeltaStore:MemoryDeltaStore1");
-            //IConfigurationSection ConfigMemoryDeltaStore2 = Configuration.GetSection("DeltaStore:MemoryDeltaStore2");
+            IConfigurationSection ConfigMemoryDeltaStore1 = Configuration.GetSection("DeltaStore:MemoryDeltaStore1");
+            IConfigurationSection ConfigMemoryDeltaStore2 = Configuration.GetSection("DeltaStore:MemoryDeltaStore2");
 
-            //services.Configure<DeltaStoreSettings>("MemoryDeltaStore1", ConfigMemoryDeltaStore1);
-            //services.Configure<DeltaStoreSettings>("MemoryDeltaStore2", ConfigMemoryDeltaStore2);
+            services.Configure<DeltaStoreSettings>("MemoryDeltaStore1", ConfigMemoryDeltaStore1);
+            services.Configure<DeltaStoreSettings>("MemoryDeltaStore2", ConfigMemoryDeltaStore2);
 
-            //List<DeltaStoreConfigurationOptions> DeltaStores = new List<DeltaStoreConfigurationOptions>();
-            //DeltaStoreConfigurationOptions MemoryDeltaStore1 = new DeltaStoreConfigurationOptions(typeof(EFDeltaStore), "MemoryDeltaStore1");
-            //DeltaStoreConfigurationOptions MemoryDeltaStore2 = new DeltaStoreConfigurationOptions(typeof(MemoryDeltaStore), "MemoryDeltaStore2");
+            List<DeltaStoreConfigurationOptions> DeltaStores = new List<DeltaStoreConfigurationOptions>();
+            DeltaStoreConfigurationOptions MemoryDeltaStore1 = new DeltaStoreConfigurationOptions(typeof(MemoryDeltaStore), "MemoryDeltaStore1");
+            DeltaStoreConfigurationOptions MemoryDeltaStore2 = new DeltaStoreConfigurationOptions(typeof(MemoryDeltaStore), "MemoryDeltaStore2");
 
-            //DeltaStores.Add(MemoryDeltaStore1);
-            //DeltaStores.Add(MemoryDeltaStore2);
+            DeltaStores.Add(MemoryDeltaStore1);
+            DeltaStores.Add(MemoryDeltaStore2);
 
-            //List<DeltaStoreConfigurationOptions> DeltaProcessors = new List<DeltaStoreConfigurationOptions>();
+            List<DeltaStoreConfigurationOptions> DeltaProcessors = new List<DeltaStoreConfigurationOptions>();
             //DeltaStoreConfigurationOptions MemoryDeltaProcessor1 = new DeltaStoreConfigurationOptions(typeof(MemoryDeltaProcessor), "MemoryDeltaStore1");
             //DeltaStoreConfigurationOptions MemoryDeltaProcessor2 = new DeltaStoreConfigurationOptions(typeof(EFDeltaProcessor), "MemoryDeltaStore2");
             //DeltaProcessors.Add(MemoryDeltaProcessor1);
             //DeltaProcessors.Add(MemoryDeltaProcessor2);
-            //services.AddDataStoreTypes(DeltaStores.ToArray(), DeltaProcessors.ToArray());
+            services.AddDataStoreTypes(DeltaStores.ToArray(), DeltaProcessors.ToArray());
 
 
-            //// Add named options configuration AFTER other configuration
-            ////services.AddSingleton<IConfigureOptions<DeltaStoreSettings>, DataStoreRegistrationService>();
+            // Add named options configuration AFTER other configuration
+            //services.AddSingleton<IConfigureOptions<DeltaStoreSettings>, DataStoreRegistrationService>();
 
 
 
-            ////Consumer
-            ////services.AddScoped<SlackNotificationService>();
-            //services.AddScoped<ISyncServer, SyncServerBase>();
+            //Consumer
+            //services.AddScoped<SlackNotificationService>();
+            services.AddScoped<ISyncServerNode, SyncServerBase>();
             //services.AddSyncServer()
         }
 
@@ -74,7 +74,7 @@ namespace BIT.Data.Sync.Tests.Startups
 
             app.UseEndpoints(endpoints =>
             {
-               // endpoints.MapControllers();
+                endpoints.MapControllers();
             });
         }
     }

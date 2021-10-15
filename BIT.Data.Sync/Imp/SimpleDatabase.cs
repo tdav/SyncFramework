@@ -1,4 +1,5 @@
-﻿using BIT.Data.Sync.Extensions;
+﻿using BIT.Data.Sync.Client;
+using BIT.Data.Sync.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,35 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.TextImp
 {
-    public class SimpleDatabase 
+    public class SimpleDatabase : ISyncClientNode
     {
         public IDeltaProcessor DeltaProcessor { get; set; }
         public string Identity { get; set; }
         public IDeltaStore DeltaStore { get; set; }
         public List<SimpleDatabaseRecord> Data { get => _Data; private set => _Data = value; }
+
+        public ISyncFrameworkClient SyncFrameworkClient  { get;private set ;}
+
         List<SimpleDatabaseRecord> _Data;
-        public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data)
+        public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data, ISyncFrameworkClient SyncFrameworkClient)
         {
             Identity = identity;
             DeltaStore = deltaStore;
             this.Data= Data;
+            this.SyncFrameworkClient = SyncFrameworkClient;
         }
-        public SimpleDatabase(IDeltaStore deltaStore, string identity):this(deltaStore, identity,new List<SimpleDatabaseRecord>())
+        public SimpleDatabase(IDeltaStore deltaStore, string identity, ISyncFrameworkClient SyncFrameworkClient) :this(deltaStore, identity,new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
         {
          
         }
-       
+        public SimpleDatabase(string identity, ISyncFrameworkClient SyncFrameworkClient) : this(new MemoryDeltaStore(), identity, new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
+        {
+
+        }
+        public SimpleDatabase(IDeltaStore deltaStore, string identity) : this(deltaStore, identity, new List<SimpleDatabaseRecord>(), null)
+        {
+
+        }
         public async void Update(SimpleDatabaseRecord Instance)
         {
             var ObjectToUpdate = Data.FirstOrDefault(x => x.Key == Instance.Key);
