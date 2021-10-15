@@ -15,18 +15,17 @@ namespace BIT.Data.Sync.Client
     {
         HttpClient _httpClient;
         public string EndpointName { get; }
-        public SyncFrameworkHttpClient(HttpClient httpClient)
-        {
-            this.EndpointName = EndpointName;
-            _httpClient = httpClient;
-        }
-        public SyncFrameworkHttpClient(string BaseAddress, string DeltaStoreId)
+        public SyncFrameworkHttpClient(HttpClient httpClient,string DeltaStoreId)
         {
             this.EndpointName = DeltaStoreId;
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(BaseAddress);
+            _httpClient = httpClient;
             _httpClient.DefaultRequestHeaders.Add("DeltaStoreName", DeltaStoreId);
             _httpClient.DefaultRequestHeaders.Add("DeltaProcessorName", DeltaStoreId);
+            this.EndpointName = DeltaStoreId;
+        }
+        public SyncFrameworkHttpClient(string BaseAddress, string DeltaStoreId):this(new HttpClient() { BaseAddress=new Uri(BaseAddress)},DeltaStoreId)
+        {
+           
         }
         public virtual async Task PushAsync(IEnumerable<IDelta> Deltas, CancellationToken cancellationToken  = default)
         {

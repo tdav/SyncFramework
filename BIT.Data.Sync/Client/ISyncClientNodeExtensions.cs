@@ -6,22 +6,14 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Client
 {
-    public static class ISyncFrameworkLinkExtensions
+    public static class ISyncClientNodeExtensions
     {
 
         public static async Task<List<Delta>> FetchAsync(this ISyncClientNode instance, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var LastDetalIndex = await instance.DeltaStore.GetLastProcessedDeltaAsync(cancellationToken).ConfigureAwait(false);
-//            var query = new Dictionary<string, string>
-//            {
 
-//#pragma warning disable CRRSP06 // A misspelled word has been found
-//                ["startindex"] = LastDetalIndex.ToString(),
-//#pragma warning restore CRRSP06 // A misspelled word has been found
-//                ["identity"] = instance.DeltaStore.Identity,
-
-//            };
 
             return await instance.SyncFrameworkClient.FetchAsync(LastDetalIndex, instance.DeltaStore.Identity, cancellationToken).ConfigureAwait(false);
         }

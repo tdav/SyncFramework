@@ -16,12 +16,15 @@ namespace BIT.Data.Sync
         protected DeltaStoreSettings _deltaStoreSettings;
 
         public string Identity { get; private set; }
-
-        public DeltaStoreBase(DeltaStoreSettings deltaStoreSettings)
+        public DeltaStoreBase(string Identity)
         {
-            this._deltaStoreSettings = deltaStoreSettings;
-            Setup();
+            this.Identity= Identity;
         }
+        //public DeltaStoreBase(DeltaStoreSettings deltaStoreSettings)
+        //{
+        //    this._deltaStoreSettings = deltaStoreSettings;
+        //    Setup();
+        //}
         protected virtual void Setup()
         {
 

@@ -51,10 +51,12 @@ namespace BIT.Data.Sync.Tests.Startups
             //services.AddSingleton<IConfigureOptions<DeltaStoreSettings>, DataStoreRegistrationService>();
 
 
+            Dictionary<string, IDeltaStore> stores = new Dictionary<string, IDeltaStore>();
+            stores.Add("MemoryDeltaStore1", new MemoryDeltaStore());
 
             //Consumer
             //services.AddScoped<SlackNotificationService>();
-            services.AddScoped<ISyncServerNode, SyncServerBase>();
+            services.AddSingleton<ISyncServerNode>(new SyncServerBase(stores,null));
             //services.AddSyncServer()
         }
 

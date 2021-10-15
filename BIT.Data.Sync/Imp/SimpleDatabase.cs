@@ -24,13 +24,14 @@ namespace BIT.Data.Sync.TextImp
             this.Data= Data;
             this.SyncFrameworkClient = SyncFrameworkClient;
             this.DeltaProcessor = new SimpleDatabaseDeltaProcessor(this.Data);
+            
         
         }
         public SimpleDatabase(IDeltaStore deltaStore, string identity, ISyncFrameworkClient SyncFrameworkClient) :this(deltaStore, identity,new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
         {
          
         }
-        public SimpleDatabase(string identity, ISyncFrameworkClient SyncFrameworkClient) : this(new MemoryDeltaStore(), identity, new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
+        public SimpleDatabase(string identity, ISyncFrameworkClient SyncFrameworkClient) : this(new MemoryDeltaStore(identity), identity, new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
         {
 
         }

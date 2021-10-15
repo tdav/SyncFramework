@@ -24,7 +24,7 @@ namespace BIT.Data.Sync.Tests
         public async Task SaveDeltasAsync_Test()
         {
 
-            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore("A",new List<IDelta>());
 
             var  DeltaHello=  memoryDeltaStore.CreateDelta("A", "Hello");
 
@@ -37,7 +37,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task SetAndGetLastProcessedDelta_Test()
         {
-            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore("A",new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
 
@@ -50,7 +50,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task GetDeltasAsync_Test()
         {
-            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore(new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new TextImp.MemoryDeltaStore("A",new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
             var DeltaWorld = memoryDeltaStore.CreateDelta("A", "World");
@@ -66,7 +66,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task PurgeDeltasAsync_Test()
         {
-            MemoryDeltaStore memoryDeltaStore = new MemoryDeltaStore(new List<IDelta>());
+            MemoryDeltaStore memoryDeltaStore = new MemoryDeltaStore("A",new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
 

@@ -22,7 +22,9 @@ namespace BIT.Data.Sync
 
             KeyValuePair<string, Type> DeltaStoreType = _DeltaStores.FirstOrDefault(ds => string.Compare(ds.Key, options.Name, StringComparison.Ordinal) == 0);
 
-            return Activator.CreateInstance(DeltaStoreType.Value, new object[] { options }) as IDeltaStore;
+            IDeltaStore deltaStore = Activator.CreateInstance(DeltaStoreType.Value) as IDeltaStore;
+            return deltaStore;
+            //return Activator.CreateInstance(DeltaStoreType.Value, new object[] { options }) as IDeltaStore;
         }
         public IDeltaProcessor CreateDeltaProcessor(DeltaStoreSettings options)
         {
