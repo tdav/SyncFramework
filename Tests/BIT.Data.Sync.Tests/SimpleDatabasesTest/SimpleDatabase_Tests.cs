@@ -94,10 +94,9 @@ namespace BIT.Data.Sync.Tests
             Mundo.Text = "HOLA MUNDO";
             Master.Update(Mundo);
 
-            //17 - Get deltas from the master and process them on the other nodes 
-            //await A_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(A_LastIndexProccesded, default),default);
-            //await B_DeltaProcessor.ProcessDeltasAsync(await Master.DeltaStore.GetDeltasAsync(B_LastIndexProccesded, default), default);
-
+            await Master.PushAsync();
+            await A_Database.PullAsync();
+            await B_Database.PullAsync();
 
             Debug.WriteLine($"{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}");
            
