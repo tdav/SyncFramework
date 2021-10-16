@@ -1,4 +1,5 @@
-﻿using BIT.Data.Sync.Guids.StaticProviders;
+﻿using BIT.Data.Sync.Guids.CombProvider;
+
 using System;
 
 namespace BIT.Data.Sync
@@ -13,8 +14,7 @@ namespace BIT.Data.Sync
         }
         public static Guid GenerateComb()
         {
-            return Provider.PostgreSql.Create();
-           
+            return GuidService.Create();
         }
         public Delta(string identity, byte[] operation)
         {
