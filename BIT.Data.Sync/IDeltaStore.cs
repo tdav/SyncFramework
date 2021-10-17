@@ -7,8 +7,8 @@ namespace BIT.Data.Sync
 {
     public interface IDeltaStore
     {
-        string Identity { get; }
-        void SetIdentity(string Identity);
+        //string Identity { get; }
+        
         /// <summary>
         /// Saves the IEnumerable<IDelta> of deltas in the current store
         /// </summary>

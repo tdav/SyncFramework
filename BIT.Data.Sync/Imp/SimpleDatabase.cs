@@ -8,30 +8,32 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Imp
 {
-    public class SimpleDatabase : ISyncClientNode
+    public class SimpleDatabase : ISyncClientNode, IEnableDeltaTracking
     {
         public IDeltaProcessor DeltaProcessor { get; protected set; }
         public string Identity { get; set; }
         public IDeltaStore DeltaStore { get; protected set; }
         public List<SimpleDatabaseRecord> Data { get => _Data; protected set => _Data = value; }
         public ISyncFrameworkClient SyncFrameworkClient  { get; protected set ;}
+        public bool EnableDeltaTracking { get; set; }
 
         List<SimpleDatabaseRecord> _Data;
-        public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data, ISyncFrameworkClient SyncFrameworkClient)
+        public SimpleDatabase(IDeltaStore deltaStore, string identity,  List<SimpleDatabaseRecord> Data, ISyncFrameworkClient syncFrameworkClient,bool EnableDeltaTracking= true)
         {
             Identity = identity;
             DeltaStore = deltaStore;
             this.Data= Data;
-            this.SyncFrameworkClient = SyncFrameworkClient;
+            this.SyncFrameworkClient = syncFrameworkClient;
             this.DeltaProcessor = new SimpleDatabaseDeltaProcessor(this.Data);
+            this.EnableDeltaTracking = EnableDeltaTracking;
             
         
         }
-        public SimpleDatabase(IDeltaStore deltaStore, string identity, ISyncFrameworkClient SyncFrameworkClient) :this(deltaStore, identity,new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
+        public SimpleDatabase(IDeltaStore deltaStore, string identity, ISyncFrameworkClient SyncFrameworkClient,bool EnableDeltaTracking=true) :this(deltaStore, identity,new List<SimpleDatabaseRecord>(), SyncFrameworkClient, EnableDeltaTracking)
         {
          
         }
-        public SimpleDatabase(string identity, ISyncFrameworkClient SyncFrameworkClient) : this(new MemoryDeltaStore(identity), identity, new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
+        public SimpleDatabase(string identity, ISyncFrameworkClient SyncFrameworkClient) : this(new MemoryDeltaStore(), identity, new List<SimpleDatabaseRecord>(), SyncFrameworkClient)
         {
 
         }
@@ -46,8 +48,12 @@ namespace BIT.Data.Sync.Imp
             {
                 var Index = Data.IndexOf(ObjectToUpdate);
                 Data[Index] = Instance;
-                SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Update, Instance);
-                await SaveDelta(item);
+                if(EnableDeltaTracking)
+                {
+                    SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Update, Instance);
+                    await SaveDelta(item);
+                }
+               
             }
           
         }
@@ -55,7 +61,11 @@ namespace BIT.Data.Sync.Imp
         private async Task SaveDelta(SimpleDatabaseModification item)
         {
             var Delta = DeltaStore.CreateDelta(Identity,item);
-            await DeltaStore.SaveDeltasAsync(new List<IDelta>() { Delta }, default);
+           
+            if (EnableDeltaTracking)
+            {
+                await DeltaStore.SaveDeltasAsync(new List<IDelta>() { Delta }, default);
+            }
         }
 
         public async void Delete(SimpleDatabaseRecord Instance)
@@ -64,17 +74,24 @@ namespace BIT.Data.Sync.Imp
             if(ObjectToDelete!=null)
             {
                 Data.Remove(ObjectToDelete);
-                SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Delete, Instance);
-                await SaveDelta(item);
+                if (EnableDeltaTracking)
+                {
+                    SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Delete, Instance);
+                    await SaveDelta(item);
+                }
+               
             }
            
         }
         public async Task Add(SimpleDatabaseRecord Instance)
         {
             Data.Add(Instance);
+            if (EnableDeltaTracking)
+            {
+                SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Add, Instance);
+                await SaveDelta(item);
+            }
            
-            SimpleDatabaseModification item = new SimpleDatabaseModification(OperationType.Add, Instance);
-            await SaveDelta(item);
         }
     }
 }

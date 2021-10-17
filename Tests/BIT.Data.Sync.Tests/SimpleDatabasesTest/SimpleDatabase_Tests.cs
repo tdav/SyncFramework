@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BIT.Data.Sync.Tests
+namespace BIT.Data.Sync.Tests.SimpleDatabasesTest
 {
     public class SimpleDatabase_Tests:MultiServerBaseTest
     {
@@ -119,7 +119,7 @@ namespace BIT.Data.Sync.Tests
         {
 
             //1 - Delta store for master database
-            MemoryDeltaStore MasterDeltaStore = new MemoryDeltaStore("Master");
+            MemoryDeltaStore MasterDeltaStore = new MemoryDeltaStore();
 
             //2 - Create the master database
             SimpleDatabase Master = new SimpleDatabase(MasterDeltaStore, "Master");
@@ -135,7 +135,7 @@ namespace BIT.Data.Sync.Tests
             await Master.Add(World);
 
             //5 - Creating a delta store for database A
-            MemoryDeltaStore A_DeltaStore = new MemoryDeltaStore("A");
+            MemoryDeltaStore A_DeltaStore = new MemoryDeltaStore();
 
             //6 - Creating database A
             SimpleDatabase A_Database = new SimpleDatabase(A_DeltaStore, "A");
@@ -149,7 +149,7 @@ namespace BIT.Data.Sync.Tests
             await A_Database.Add(Mundo);
 
             //8 - Creating a delta store for database B
-            MemoryDeltaStore B_DeltaStore = new MemoryDeltaStore("B");
+            MemoryDeltaStore B_DeltaStore = new MemoryDeltaStore();
 
             //9 - Creating database B
             SimpleDatabase B_Database = new SimpleDatabase(B_DeltaStore, "B");

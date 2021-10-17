@@ -25,9 +25,12 @@ namespace BIT.Data.Sync.Tests.Startups
         {
             services.AddControllers();
 
-            Dictionary<string, IDeltaStore> stores = new Dictionary<string, IDeltaStore>();
-            stores.Add("MemoryDeltaStore1", new MemoryDeltaStore());
-            services.AddSingleton<ISyncServerNode>(new SyncServerBase(stores,null));
+            IDictionary<string, ISyncServerNode>  Nodes = new Dictionary<string, ISyncServerNode>();
+         
+            SyncServerNode syncServerNode = new SyncServerNode(new MemoryDeltaStore(), null);
+
+            Nodes.Add("MemoryDeltaStore1", syncServerNode);
+            services.AddSingleton<ISyncServer>(new SyncServerBase(Nodes));
             
         }
 

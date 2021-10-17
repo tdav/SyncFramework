@@ -14,24 +14,16 @@ namespace BIT.Data.Sync.Imp
         Guid LastPushedDelta;
         Guid LastProcessedDelta;
       
-        public MemoryDeltaStore(string Identity,IEnumerable<IDelta> Deltas) : base(Identity)
+        public MemoryDeltaStore(IEnumerable<IDelta> Deltas) : base()
         {
             this._Deltas = new List<IDelta>(Deltas);
             
         }
-        public MemoryDeltaStore(string Identity) : this(Identity, new List<IDelta>())
+        public MemoryDeltaStore() : this(new List<IDelta>())
         {
            
         }
-        public MemoryDeltaStore() : this(string.Empty, new List<IDelta>())
-        {
-        }
-
-
-
-        //TODO fix the use of MemoryDb
-
-
+       
         public async override Task SaveDeltasAsync(IEnumerable<IDelta> deltas, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

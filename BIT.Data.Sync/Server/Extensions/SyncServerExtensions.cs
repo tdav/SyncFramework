@@ -11,23 +11,23 @@ namespace BIT.Data.Sync.Server.Extensions
         //{
 
         //}
-        public static void AddDataStoreTypes(this IServiceCollection services, DeltaStoreConfigurationOptions[] DeltaStoreOptions, DeltaStoreConfigurationOptions[] DeltaProcessorsOptions)
-        {
-            Dictionary<string, Type> DeltaStores = GetTypes(DeltaStoreOptions);
-            Dictionary<string, Type> DeltaProcessors = GetTypes(DeltaProcessorsOptions);
-            //services.AddSingleton(new ReflectionService(DeltaStores, DeltaProcessors));
-        }
+        //public static void AddDataStoreTypes(this IServiceCollection services, DeltaStoreConfigurationOptions[] DeltaStoreOptions, DeltaStoreConfigurationOptions[] DeltaProcessorsOptions)
+        //{
+        //    Dictionary<string, Type> DeltaStores = GetTypes(DeltaStoreOptions);
+        //    Dictionary<string, Type> DeltaProcessors = GetTypes(DeltaProcessorsOptions);
+        //    //services.AddSingleton(new ReflectionService(DeltaStores, DeltaProcessors));
+        //}
 
-        private static Dictionary<string, Type> GetTypes(DeltaStoreConfigurationOptions[] ConfigurationOptions)
-        {
-            Dictionary<string, Type> Types = new Dictionary<string, Type>();
-            foreach (var type in ConfigurationOptions)
-            {
-                Types.Add(type.ConfigurationName, type.Type);
-            }
+        //private static Dictionary<string, Type> GetTypes(DeltaStoreConfigurationOptions[] ConfigurationOptions)
+        //{
+        //    Dictionary<string, Type> Types = new Dictionary<string, Type>();
+        //    foreach (var type in ConfigurationOptions)
+        //    {
+        //        Types.Add(type.ConfigurationName, type.Type);
+        //    }
 
-            return Types;
-        }
+        //    return Types;
+        //}
 
 
     }

@@ -35,17 +35,13 @@ namespace BIT.Data.Sync.Extensions
 
             byte[] bytes = Encoding.UTF8.GetBytes(jsonString);
             return bytes;
-            //var formatter = new BinaryFormatter();
-            //MemoryStream serializationStream = new MemoryStream();
-            //formatter.Serialize(serializationStream, Instance);
-            //return serializationStream.ToArray();
+           
         }
         public static T DeserializeCore<T>(byte[] Instance)
         {
             string str = Encoding.UTF8.GetString(Instance);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(str);
-            //var formatter = new BinaryFormatter();
-            //return (T)Convert.ChangeType(formatter.Deserialize(new MemoryStream(Instance)), typeof(T));
+           
         }
 
         public static IDelta CreateDeltaCore(string Identity, object Operations)

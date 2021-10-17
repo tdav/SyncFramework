@@ -14,7 +14,6 @@ namespace BIT.Data.Sync.Tests.Infrastructure
 
         public TimeSpan Timeout { get => _testClient.Timeout; set => _testClient.Timeout = value; }
 
-        //public IHeadersCollection DefaultRequestHeaders { get; } = new RequestHeadersCollection();
 
         public HttpClient CreateClient(string name)
         {

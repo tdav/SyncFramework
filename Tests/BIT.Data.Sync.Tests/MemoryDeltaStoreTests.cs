@@ -1,4 +1,3 @@
-using BIT.Data.Sync.Tests.Infrastructure;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +23,7 @@ namespace BIT.Data.Sync.Tests
         public async Task SaveDeltasAsync_Test()
         {
 
-            IDeltaStore memoryDeltaStore = new MemoryDeltaStore("A",new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new MemoryDeltaStore(new List<IDelta>());
 
             var  DeltaHello=  memoryDeltaStore.CreateDelta("A", "Hello");
 
@@ -37,7 +36,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task SetAndGetLastProcessedDelta_Test()
         {
-            IDeltaStore memoryDeltaStore = new MemoryDeltaStore("A",new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new MemoryDeltaStore(new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
 
@@ -50,7 +49,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task GetDeltasAsync_Test()
         {
-            IDeltaStore memoryDeltaStore = new MemoryDeltaStore("A",new List<IDelta>());
+            IDeltaStore memoryDeltaStore = new MemoryDeltaStore(new List<IDelta>());
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
             var DeltaWorld = memoryDeltaStore.CreateDelta("A", "World");
@@ -66,7 +65,7 @@ namespace BIT.Data.Sync.Tests
         [Test]
         public async Task PurgeDeltasAsync_Test()
         {
-            MemoryDeltaStore memoryDeltaStore = new MemoryDeltaStore("A",new List<IDelta>());
+            MemoryDeltaStore memoryDeltaStore = new MemoryDeltaStore();
 
             var DeltaHello = memoryDeltaStore.CreateDelta("A", "Hello");
 

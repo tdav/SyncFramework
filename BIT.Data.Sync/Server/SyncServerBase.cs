@@ -1,6 +1,4 @@
 ﻿
-using Microsoft.Extensions.Options;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,27 +6,26 @@ using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Server
 {
-    public class SyncServerBase : ISyncServerNode
+    public class SyncServerBase: ISyncServer
     {
-      
-        Dictionary<string,IDeltaStore> deltaStores;
-        Dictionary<string,IDeltaProcessor> deltaProcessors;
+
+
+        IDictionary<string, ISyncServerNode> _Nodes;
         public SyncServerBase()
         {
-          
+
         }
-        public SyncServerBase(Dictionary<string, IDeltaStore> deltaStores, Dictionary<string, IDeltaProcessor> deltaProcessors)
+        public SyncServerBase(IDictionary<string, ISyncServerNode> Nodes)
         {
-            this.deltaProcessors = deltaProcessors;
-            this.deltaStores = deltaStores;
+            this._Nodes = Nodes;
         }
         public async Task<IEnumerable<IDelta>> GetDeltasAsync(string name, Guid startindex, string identity, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var deltaStore = deltaStores[name];
-            if (deltaStore != null)
+            var Node = _Nodes[name];
+            if (Node != null)
             {
-                return await deltaStore.GetDeltasFromOtherNodes(startindex, identity, cancellationToken).ConfigureAwait(false);
+                return await Node.GetDeltasAsync(startindex, identity, cancellationToken).ConfigureAwait(false);
             }
 
             IEnumerable<IDelta> result = new List<IDelta>();
@@ -38,10 +35,10 @@ namespace BIT.Data.Sync.Server
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var Processor = this.deltaProcessors[Name];
-            if(Processor!=null)
+            var Node = this._Nodes[Name];
+            if (Node != null)
             {
-                return Processor.ProcessDeltasAsync(deltas, cancellationToken);
+                return Node.ProcessDeltasAsync(deltas, cancellationToken);
             }
             return null;
 
@@ -50,11 +47,11 @@ namespace BIT.Data.Sync.Server
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var deltaStore = deltaStores[name];
+            var Node = _Nodes[name];
 
-            if (deltaStore != null)
+            if (Node != null)
             {
-                return deltaStore.SaveDeltasAsync(deltas, cancellationToken);
+                return Node.SaveDeltasAsync(deltas, cancellationToken);
             }
             return Task.CompletedTask;
         }
