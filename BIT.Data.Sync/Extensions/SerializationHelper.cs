@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Text;
 
 namespace BIT.Data.Sync.Extensions
@@ -31,17 +32,30 @@ namespace BIT.Data.Sync.Extensions
 
         public static byte[] SerializeCore(object Instance)
         {
-            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(Instance);
+          
 
-            byte[] bytes = Encoding.UTF8.GetBytes(jsonString);
+            DataContractJsonSerializer js = new DataContractJsonSerializer(Instance.GetType());
+            MemoryStream msObj = new MemoryStream();
+            js.WriteObject(msObj, Instance);
+            msObj.Position = 0;
+            StreamReader sr = new StreamReader(msObj);
+            string jsonDeltas = sr.ReadToEnd();
+
+            byte[] bytes = Encoding.UTF8.GetBytes(jsonDeltas);
             return bytes;
            
         }
-        public static T DeserializeCore<T>(byte[] Instance)
+        public static T DeserializeCore<T>(byte[] Data)
         {
-            string str = Encoding.UTF8.GetString(Instance);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(str);
-           
+            string str = Encoding.UTF8.GetString(Data);
+            using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(str)))
+            {
+
+                DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(T));
+                T Instance = (T)deserializer.ReadObject(ms);
+                return Instance;
+
+            }
         }
 
         public static IDelta CreateDeltaCore(string Identity, object Operations)

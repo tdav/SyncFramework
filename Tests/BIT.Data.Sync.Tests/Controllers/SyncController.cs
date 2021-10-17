@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,20 +33,43 @@ namespace BIT.Data.Sync.Tests.Controllers
             _SyncServer = SyncServer;
         }
         [HttpPost(nameof(Push))]
-        public virtual async Task Push([FromBody] List<Delta> deltas)
-        {
+        public virtual async Task Push()
+        { 
 
-            string NodeId = GetHeader("NodeId");
            
-            await _SyncServer.SaveDeltasAsync(NodeId, deltas, new CancellationToken());
+            var stream = new StreamReader(this.Request.Body);
+            var body = await stream.ReadToEndAsync();
+           
+            using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(body)))
+            {
+              
+                DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(List<Delta>));
+                List<Delta> Deltas = (List<Delta>)deserializer.ReadObject(ms);
+                string NodeId = GetHeader("NodeId");
+                await _SyncServer.SaveDeltasAsync(NodeId, Deltas, new CancellationToken());
+
+            }
+
+           
             
         }
         [HttpGet("Fetch")]
-        public async Task<IEnumerable<IDelta>> Fetch(Guid startindex, string identity)
+        public async Task<string> Fetch(Guid startindex, string identity)
         {
             string NodeId = GetHeader("NodeId");
             IEnumerable<IDelta> enumerable = await _SyncServer.GetDeltasAsync(NodeId, startindex, identity, new CancellationToken());
-            return enumerable;
+            List<Delta> toserialzie = new List<Delta>();
+            foreach (IDelta delta in enumerable)
+            {
+                toserialzie.Add(new Delta(delta));
+            }
+            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(List<Delta>));
+            MemoryStream msObj = new MemoryStream();
+            js.WriteObject(msObj, toserialzie);
+            msObj.Position = 0;
+            StreamReader sr = new StreamReader(msObj);
+            string jsonDeltas = sr.ReadToEnd();
+            return jsonDeltas;
 
         }
 
