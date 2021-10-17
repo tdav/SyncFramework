@@ -1,18 +1,15 @@
 ﻿using BIT.Data.Sync.Client;
-using BIT.Data.Sync.Extensions;
 using BIT.Data.Sync.Imp;
 using BIT.Data.Sync.Tests.Infrastructure;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BIT.Data.Sync.Tests.SimpleDatabasesTest
 {
-    public class SimpleDatabase_Tests:MultiServerBaseTest
+    public class SimpleDatabaseApiTests : MultiServerBaseTest
     {
 
         [SetUp()]
@@ -33,7 +30,7 @@ namespace BIT.Data.Sync.Tests.SimpleDatabasesTest
             //2- Create data and save it on the master
             SimpleDatabaseRecord Hello = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hello" };
             SimpleDatabaseRecord World = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "World" };
-            
+
             await Master.Add(Hello);
             await Master.Add(World);
 
@@ -44,7 +41,7 @@ namespace BIT.Data.Sync.Tests.SimpleDatabasesTest
             //4- Create data and save it on database A
             SimpleDatabaseRecord Hola = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Hola" };
             SimpleDatabaseRecord Mundo = new SimpleDatabaseRecord() { Key = Guid.NewGuid(), Text = "Mundo" };
-            
+
             await A_Database.Add(Hola);
             await A_Database.Add(Mundo);
 
@@ -96,17 +93,17 @@ namespace BIT.Data.Sync.Tests.SimpleDatabasesTest
             await B_Database.PullAsync();
 
             Debug.WriteLine($"{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}{System.Environment.NewLine}");
-           
+
 
             //11 - Write in the console the current state of each database
             Debug.WriteLine("Data in master");
             Master.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
             Debug.WriteLine("Data in A_Database");
-            A_Database.Data.OrderBy(x=>x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+            A_Database.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
             Debug.WriteLine("Data in B_Database");
-            B_Database.Data.OrderBy(x=>x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
+            B_Database.Data.OrderBy(x => x.Key).ToList().ForEach(r => Debug.WriteLine(r.ToString()));
 
-          
+
 
 
 
