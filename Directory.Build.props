@@ -1,13 +1,6 @@
 ﻿<Project>
-	<PropertyGroup>
-		<EfTargetFramework>netstandard2.1</EfTargetFramework>
-		<DemoBuild>true</DemoBuild>
-		<NetStandardVersion>netstandard2.0</NetStandardVersion>
-		<DevExpressVersion>21.1.3</DevExpressVersion>
-		<BasePath>C:\Users\Joche\source\repos\SynFramework\scr\</BasePath>
-		<OldNugetVersion>20.2.5.28</OldNugetVersion>
-		<BITXpo>21.1.3.5841</BITXpo>
-		<BITAspNetCore>21.1.3.5841</BITAspNetCore>
-	    <BITDataTransferRestClientNet>21.1.3.5841</BITDataTransferRestClientNet>
+	<PropertyGroup Label="BIT.Data.Sync">
+		<BitDataSyncNetStandardVersion>netstandard2.0</BitDataSyncNetStandardVersion>
+		<BitDataSyncNugetVersion>1</BitDataSyncNugetVersion>
 	</PropertyGroup>
 </Project>
