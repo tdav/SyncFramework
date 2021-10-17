@@ -15,13 +15,13 @@ namespace BIT.Data.Sync.Client
     {
         HttpClient _httpClient;
         public string DeltaStoreId { get; }
-        public SyncFrameworkHttpClient(HttpClient httpClient,string DeltaStoreId)
+        public SyncFrameworkHttpClient(HttpClient httpClient,string NodeId)
         {
-            this.DeltaStoreId = DeltaStoreId;
+            this.DeltaStoreId = NodeId;
             _httpClient = httpClient;
-            _httpClient.DefaultRequestHeaders.Add("DeltaStoreName", DeltaStoreId);
-            _httpClient.DefaultRequestHeaders.Add("DeltaProcessorName", DeltaStoreId);
-            this.DeltaStoreId = DeltaStoreId;
+            _httpClient.DefaultRequestHeaders.Add("NodeId", NodeId);
+          
+            this.DeltaStoreId = NodeId;
         }
         public SyncFrameworkHttpClient(string BaseAddress, string DeltaStoreId):this(new HttpClient() { BaseAddress=new Uri(BaseAddress)},DeltaStoreId)
         {

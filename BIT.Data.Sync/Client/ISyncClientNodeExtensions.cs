@@ -13,8 +13,6 @@ namespace BIT.Data.Sync.Client
         {
             cancellationToken.ThrowIfCancellationRequested();
             var LastDetalIndex = await instance.DeltaStore.GetLastProcessedDeltaAsync(cancellationToken).ConfigureAwait(false);
-
-
             return await instance.SyncFrameworkClient.FetchAsync(LastDetalIndex, instance.Identity, cancellationToken).ConfigureAwait(false);
         }
         public static async Task PullAsync(this ISyncClientNode instance, CancellationToken cancellationToken = default)

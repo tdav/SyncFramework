@@ -30,7 +30,7 @@ namespace BIT.Data.Sync.Tests.Startups
             SyncServerNode syncServerNode = new SyncServerNode(new MemoryDeltaStore(), null);
 
             Nodes.Add("MemoryDeltaStore1", syncServerNode);
-            services.AddSingleton<ISyncServer>(new SyncServerBase(Nodes));
+            services.AddSingleton<ISyncServer>(new SyncServer(Nodes));
             
         }
 

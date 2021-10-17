@@ -33,16 +33,16 @@ namespace BIT.Data.Sync.Tests.Controllers
         public virtual async Task Push([FromBody] List<Delta> deltas)
         {
 
-            string DeltaStoreName = GetHeader("DeltaStoreName");
-            string DeltaProcessorName = GetHeader("DeltaProcessorName");
-            await _SyncServer.SaveDeltasAsync(DeltaStoreName, deltas, new CancellationToken());
-            //await this._SyncServer.ProcessDeltasAsync(DeltaProcessorName, deltas);
+            string NodeId = GetHeader("NodeId");
+           
+            await _SyncServer.SaveDeltasAsync(NodeId, deltas, new CancellationToken());
+            
         }
         [HttpGet("Fetch")]
         public async Task<IEnumerable<IDelta>> Fetch(Guid startindex, string identity)
         {
-            string name = GetHeader("DeltaStoreName");
-            IEnumerable<IDelta> enumerable = await _SyncServer.GetDeltasAsync(name, startindex, identity, new CancellationToken());
+            string NodeId = GetHeader("NodeId");
+            IEnumerable<IDelta> enumerable = await _SyncServer.GetDeltasAsync(NodeId, startindex, identity, new CancellationToken());
             return enumerable;
 
         }
