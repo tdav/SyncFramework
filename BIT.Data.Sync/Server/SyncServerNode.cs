@@ -10,11 +10,14 @@ namespace BIT.Data.Sync.Server
     {
         IDeltaStore deltaStore;
         IDeltaProcessor deltaProcessor;
-        public SyncServerNode(IDeltaStore deltaStore, IDeltaProcessor deltaProcessor)
+        public SyncServerNode(IDeltaStore deltaStore, IDeltaProcessor deltaProcessor,string nodeId)
         {
             this.deltaStore = deltaStore;
             this.deltaProcessor = deltaProcessor;
+            this.NodeId = nodeId;
         }
+
+        public string NodeId { get; set; }
 
         public virtual Task<IEnumerable<IDelta>> GetDeltasAsync(Guid startindex, string identity, CancellationToken cancellationToken)
         {

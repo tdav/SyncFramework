@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,22 +11,21 @@ namespace BIT.Data.Sync.Server
     {
 
 
-        IDictionary<string, ISyncServerNode> _Nodes;
-        public SyncServer()
-        {
-
-        }
-        public SyncServer(IDictionary<string, ISyncServerNode> Nodes)
+        IEnumerable<ISyncServerNode> _Nodes;
+       
+        public SyncServer(params ISyncServerNode[] Nodes)
         {
             this._Nodes = Nodes;
         }
 
-        public IDictionary<string, ISyncServerNode> Nodes => _Nodes;
+        public IEnumerable<ISyncServerNode> Nodes => _Nodes;
 
-        public async Task<IEnumerable<IDelta>> GetDeltasAsync(string name, Guid startindex, string identity, CancellationToken cancellationToken)
+       
+
+        public async Task<IEnumerable<IDelta>> GetDeltasAsync(string NodeId, Guid startindex, string identity, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var Node = Nodes[name];
+            ISyncServerNode Node = GetNode(NodeId);
             if (Node != null)
             {
                 return await Node.GetDeltasAsync(startindex, identity, cancellationToken).ConfigureAwait(false);
@@ -34,11 +34,10 @@ namespace BIT.Data.Sync.Server
             IEnumerable<IDelta> result = new List<IDelta>();
             return result;
         }
-        public Task ProcessDeltasAsync(string Name, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
+        public Task ProcessDeltasAsync(string NodeId, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
-            var Node = this.Nodes[Name];
+            ISyncServerNode Node = GetNode(NodeId);
             if (Node != null)
             {
                 return Node.ProcessDeltasAsync(deltas, cancellationToken);
@@ -46,11 +45,17 @@ namespace BIT.Data.Sync.Server
             return null;
 
         }
-        public Task SaveDeltasAsync(string name, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
+
+        private ISyncServerNode GetNode(string NodeId)
+        {
+            return Nodes.FirstOrDefault(node => node.NodeId == NodeId);
+        }
+
+        public Task SaveDeltasAsync(string NodeId, IEnumerable<IDelta> deltas, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var Node = Nodes[name];
+            ISyncServerNode Node = GetNode(NodeId);
 
             if (Node != null)
             {
