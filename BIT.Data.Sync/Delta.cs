@@ -1,5 +1,4 @@
-﻿using BIT.Data.Sync.Guids.CombProvider;
-
+﻿
 using System;
 
 namespace BIT.Data.Sync
@@ -12,7 +11,7 @@ namespace BIT.Data.Sync
         public Delta()
         {
         }
-        public static Guid GenerateComb()
+        public static Guid GetGuid()
         {
             return GuidService.Create();
         }

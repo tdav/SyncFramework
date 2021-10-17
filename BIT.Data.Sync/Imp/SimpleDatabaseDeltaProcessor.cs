@@ -1,5 +1,4 @@
-﻿using BIT.Data.Sync.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 using BIT.Data.Sync.Extensions;
 using System.Linq;
 
-namespace BIT.Data.Sync.TextImp
+namespace BIT.Data.Sync.Imp
 {
     public class SimpleDatabaseDeltaProcessor :DeltaProcessorBase 
     {

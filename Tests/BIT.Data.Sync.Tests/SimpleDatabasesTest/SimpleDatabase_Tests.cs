@@ -1,7 +1,7 @@
 ﻿using BIT.Data.Sync.Client;
 using BIT.Data.Sync.Extensions;
+using BIT.Data.Sync.Imp;
 using BIT.Data.Sync.Tests.Infrastructure;
-using BIT.Data.Sync.TextImp;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

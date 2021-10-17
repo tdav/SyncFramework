@@ -1,4 +1,4 @@
-﻿using BIT.Data.Sync.Options;
+﻿
 using Microsoft.Extensions.Options;
 
 using System;

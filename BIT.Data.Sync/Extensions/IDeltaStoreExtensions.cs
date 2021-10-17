@@ -4,9 +4,6 @@ namespace BIT.Data.Sync.Extensions
 {
     public static class IDeltaStoreExtensions
     {
-
-
-
         public static T GetDeltaOperations<T>(this IDeltaProcessor deltaStore, IDelta delta)
         {
             var Data = deltaStore.Decompress(delta.Operation);
@@ -35,7 +32,7 @@ namespace BIT.Data.Sync.Extensions
                 Identity = instance.Identity,
                
                 Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)),
-                Index = Delta.GenerateComb()
+                Index = Delta.GetGuid()
             };
             delta.Epoch = now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             return delta;
@@ -49,7 +46,7 @@ namespace BIT.Data.Sync.Extensions
                 Identity = Identity,
               
                 Operation = SerializationHelper.CompressCore(SerializationHelper.SerializeCore(Operations)),
-                Index = Delta.GenerateComb()
+                Index = Delta.GetGuid()
             };
             delta.Epoch = now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             return delta;

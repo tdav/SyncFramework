@@ -15,7 +15,7 @@ namespace BIT.Data.Sync.Server.Extensions
         {
             Dictionary<string, Type> DeltaStores = GetTypes(DeltaStoreOptions);
             Dictionary<string, Type> DeltaProcessors = GetTypes(DeltaProcessorsOptions);
-            services.AddSingleton(new ReflectionService(DeltaStores, DeltaProcessors));
+            //services.AddSingleton(new ReflectionService(DeltaStores, DeltaProcessors));
         }
 
         private static Dictionary<string, Type> GetTypes(DeltaStoreConfigurationOptions[] ConfigurationOptions)

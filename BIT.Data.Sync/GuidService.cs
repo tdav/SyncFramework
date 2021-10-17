@@ -1,7 +1,7 @@
 using System;
 
 
-namespace BIT.Data.Sync.Guids.CombProvider
+namespace BIT.Data.Sync
 {
     public static class GuidService
     {

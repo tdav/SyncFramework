@@ -1,4 +1,4 @@
-﻿using BIT.Data.Sync.Options;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,18 +13,13 @@ namespace BIT.Data.Sync
         {
 
         }
-        protected DeltaStoreSettings _deltaStoreSettings;
+   
 
         public string Identity { get; private set; }
         public DeltaStoreBase(string Identity)
         {
             this.Identity= Identity;
         }
-        //public DeltaStoreBase(DeltaStoreSettings deltaStoreSettings)
-        //{
-        //    this._deltaStoreSettings = deltaStoreSettings;
-        //    Setup();
-        //}
         protected virtual void Setup()
         {
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace BIT.Data.Sync.TextImp
+namespace BIT.Data.Sync.Imp
 {
     public class SimpleDatabaseRecord 
     {

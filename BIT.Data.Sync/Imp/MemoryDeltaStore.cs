@@ -1,11 +1,11 @@
-﻿using BIT.Data.Sync.Options;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BIT.Data.Sync.TextImp
+namespace BIT.Data.Sync.Imp
 {
     public class MemoryDeltaStore : DeltaStoreBase
     {

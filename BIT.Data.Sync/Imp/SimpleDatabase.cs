@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BIT.Data.Sync.TextImp
+namespace BIT.Data.Sync.Imp
 {
     public class SimpleDatabase : ISyncClientNode
     {
